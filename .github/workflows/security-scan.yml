@@ -1,0 +1,121 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: write
+
+jobs:
+  gitleaks:
+    name: Scan for secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Gitleaks report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-report
+          path: results.sarif
+          retention-days: 5
+
+  truffleHog:
+    name: TruffleHog OSS scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          extra_args: --debug --only-verified
+
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript', 'python', 'go', 'typescript', 'swift']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check if language files exist
+        id: check-language
+        run: |
+          case "${{ matrix.language }}" in
+            javascript)
+              if find . -name "*.js" -o -name "*.jsx" -o -name "*.mjs" -o -name "*.cjs" | head -1 | grep -q .; then
+                echo "has-files=true" >> $GITHUB_OUTPUT
+              else
+                echo "has-files=false" >> $GITHUB_OUTPUT
+              fi
+              ;;
+            typescript)
+              if find . -name "*.ts" -o -name "*.tsx" -o -name "*.mts" -o -name "*.cts" | head -1 | grep -q .; then
+                echo "has-files=true" >> $GITHUB_OUTPUT
+              else
+                echo "has-files=false" >> $GITHUB_OUTPUT
+              fi
+              ;;
+            python)
+              if find . -name "*.py" -o -name "*.pyi" -o -name "*.pyw" | head -1 | grep -q .; then
+                echo "has-files=true" >> $GITHUB_OUTPUT
+              else
+                echo "has-files=false" >> $GITHUB_OUTPUT
+              fi
+              ;;
+            go)
+              if find . -name "*.go" | head -1 | grep -q .; then
+                echo "has-files=true" >> $GITHUB_OUTPUT
+              else
+                echo "has-files=false" >> $GITHUB_OUTPUT
+              fi
+              ;;
+            swift)
+              if find . -name "*.swift" | head -1 | grep -q .; then
+                echo "has-files=true" >> $GITHUB_OUTPUT
+              else
+                echo "has-files=false" >> $GITHUB_OUTPUT
+              fi
+              ;;
+            *)
+              echo "has-files=false" >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+      - name: Initialize CodeQL
+        if: steps.check-language.outputs.has-files == 'true'
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        if: steps.check-language.outputs.has-files == 'true'
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        if: steps.check-language.outputs.has-files == 'true'
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
