@@ -1,6 +1,6 @@
 ---
 description: Detailed steps for template setup workflow when initializing a project
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Template Setup Workflow

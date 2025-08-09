@@ -1,6 +1,6 @@
 ## 📢 Responsible Disclosure
 
-If you discover a security vulnerability in this project template, please:
+If you discover a security vulnerability in this project, please:
 
 1. **DO NOT** create a public issue
 2. **DO NOT** disclose the vulnerability publicly
@@ -11,7 +11,7 @@ We will acknowledge receipt of your report within 48 hours and provide a timelin
 
 ## 🔒 Security Best Practices for Users
 
-When using this template for your own projects:
+When contributing to this project:
 
 1. **Never commit API keys** - Use environment variables and .env files
 2. **Review all dependencies** - Run security audits regularly
@@ -22,7 +22,7 @@ When using this template for your own projects:
 
 ## 🛡️ Security Features
 
-This template includes:
+This project includes:
 - **Gitleaks** - Automatic credential detection
 - **TruffleHog** - Secret scanning
 - **Pre-commit hooks** - Prevent credential commits
