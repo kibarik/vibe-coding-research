@@ -1,13 +1,31 @@
+# Enable rewrite engine
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
+
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Redirect Trailing Slashes If Not A Folder...
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.php [QSA,L]
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
+
+# Send Requests To Front Controller...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]
 
 # Security headers
 Header always set X-Content-Type-Options nosniff
 Header always set X-Frame-Options DENY
 Header always set X-XSS-Protection "1; mode=block"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+
+# CORS headers (will be configured per endpoint)
+Header always set Access-Control-Allow-Origin "*" env=!HTTPS
+Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, X-Idempotency-Key"
 
 # Deny access to sensitive files
 <Files ".env">
@@ -17,3 +35,22 @@ Header always set Referrer-Policy "strict-origin-when-cross-origin"
 <Files "*.log">
     Require all denied
 </Files>
+
+<Files "composer.json">
+    Require all denied
+</Files>
+
+<Files "composer.lock">
+    Require all denied
+</Files>
+
+# Prevent access to backup files
+<FilesMatch "\.(bak|backup|old|orig|save|swp|tmp)$">
+    Require all denied
+</FilesMatch>
+
+# Disable directory browsing
+Options -Indexes
+
+# Disable server signature
+ServerSignature Off
