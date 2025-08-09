@@ -1,43 +1,34 @@
-.taskmaster/docs/
+# Composer
+/vendor/
+composer.phar
+composer.lock
 
-# Taskmaster generated files
-.taskmaster/state.json
-.taskmaster/reports/
-.cursor/mcp.json
-.specstory/
-
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-dev-debug.log
-# Dependency directories
-node_modules/
-venv/
-# Environment variables
+# Environment
 .env
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-# OS specific
+.env.local
+.env.*.local
+
+# Storage
+/storage/logs/*
+!/storage/logs/.gitkeep
+/storage/cache/*
+!/storage/cache/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
+Thumbs.db
 
-# Task files
+# TaskMaster (already in template)
 .taskmaster/tasks/
-# tasks.json
-tasks/
+.taskmaster/docs/
+.taskmaster/state.json
 
-# Security scanning
-results.sarif
-.gitleaks-report.json
-gitleaks-report.json
-trufflehog-report.json
-.secrets-baseline
-*.secrets
+# Build artifacts
+/build/
+/dist/
