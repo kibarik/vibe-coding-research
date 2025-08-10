@@ -19,17 +19,15 @@ class ValidationMiddleware
 
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        $response = $handler->handle($request);
-        
         // Only validate POST requests to /api/leads
         if ($request->getMethod() === 'POST' && $request->getUri()->getPath() === '/api/leads') {
-            return $this->validateLeadRequest($request, $response);
+            return $this->validateLeadRequest($request, $handler);
         }
         
-        return $response;
+        return $handler->handle($request);
     }
 
-    private function validateLeadRequest(Request $request, Response $response): Response
+    private function validateLeadRequest(Request $request, RequestHandler $handler): Response
     {
         $contentType = $request->getHeaderLine('Content-Type');
         $data = [];
@@ -40,11 +38,13 @@ class ValidationMiddleware
             $data = json_decode($body, true);
             
             if (json_last_error() !== JSON_ERROR_NONE) {
+                $response = new \Slim\Psr7\Response();
                 return $this->createErrorResponse($response, 'Invalid JSON format', 400);
             }
         } elseif (str_contains($contentType, 'application/x-www-form-urlencoded')) {
             $data = $request->getParsedBody() ?? [];
         } else {
+            $response = new \Slim\Psr7\Response();
             return $this->createErrorResponse($response, 'Unsupported content type. Use application/json or application/x-www-form-urlencoded', 400);
         }
 
@@ -58,6 +58,7 @@ class ValidationMiddleware
                 'user_agent' => $request->getHeaderLine('User-Agent')
             ]);
             
+            $response = new \Slim\Psr7\Response();
             return $this->createErrorResponse($response, 'Validation failed', 422, $validation['errors']);
         }
 
@@ -69,7 +70,7 @@ class ValidationMiddleware
             'user_agent' => $request->getHeaderLine('User-Agent')
         ]);
 
-        return $response;
+        return $handler->handle($request);
     }
 
     private function createErrorResponse(Response $response, string $message, int $status, array $errors = []): Response
