@@ -1,74 +1,41 @@
 # API Documentation
 
-This document describes the available API endpoints for the leads.aiworkplace service.
+This document provides detailed information about the amoCRM Leads Microservice API endpoints, request/response formats, error handling, and integration guidelines.
 
 ## Base URL
 
-```
-https://your-domain.com
-```
+- **Development**: `http://localhost:8000`
+- **Production**: `https://your-domain.com`
 
 ## Authentication
 
-Currently, the API does not require authentication for lead submission. However, amoCRM OAuth2 authentication must be configured for the service to function properly.
+The API uses OAuth2 authentication for amoCRM integration. All requests to amoCRM endpoints require valid OAuth2 tokens, which are managed automatically by the service.
 
-## Idempotency
+## Common Headers
 
-The API supports idempotent requests to prevent duplicate lead submissions. This ensures that if a client retries a request due to network issues or timeouts, the same lead won't be processed multiple times.
+### Required Headers
 
-### Idempotency Key
+| Header | Description | Example |
+|--------|-------------|---------|
+| `Content-Type` | Request content type | `application/json` or `application/x-www-form-urlencoded` |
+| `X-Idempotency-Key` | Unique request identifier (UUID v4) | `550e8400-e29b-41d4-a716-446655440000` |
 
-**Header:** `X-Idempotency-Key`
+### Optional Headers
 
-**Format:** UUID v4 (e.g., `550e8400-e29b-41d4-a716-446655440000`)
-
-**Required:** Yes, for all `POST /api/leads` requests
-
-**Behavior:**
-- The same idempotency key with identical request data will return the same response
-- Idempotency keys are valid for 5 minutes from the first request
-- After 5 minutes, the same key can be reused for a new request
-- Different request data with the same key will be treated as a new request
-
-**Example:**
-```bash
-curl -X POST https://your-domain.com/api/leads \
-  -H "Content-Type: application/json" \
-  -H "X-Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000" \
-  -d '{"name":"John Doe","email":"john@example.com","phone":"+79001234567"}'
-```
-
-**Error Responses:**
-
-Missing Idempotency Key (400):
-```json
-{
-  "error": "Missing X-Idempotency-Key header",
-  "message": "X-Idempotency-Key header is required for lead submission"
-}
-```
-
-Invalid Idempotency Key Format (400):
-```json
-{
-  "error": "Invalid X-Idempotency-Key format",
-  "message": "X-Idempotency-Key must be a valid UUID v4"
-}
-```
+| Header | Description | Example |
+|--------|-------------|---------|
+| `User-Agent` | Client identifier | `MyApp/1.0` |
+| `Accept` | Response format preference | `application/json` |
 
 ## Endpoints
 
-### 1. Create Lead
+### 1. Submit Lead
 
 **Endpoint:** `POST /api/leads`
 
-**Description:** Submit a new lead for processing and integration with amoCRM.
+**Description:** Submit a new lead for processing and creation in amoCRM.
 
-**Content Types Supported:**
-- `application/json`
-- `application/x-www-form-urlencoded`
-
-**Request Headers:**
+**Headers:**
 ```
 Content-Type: application/json
 X-Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000
@@ -79,320 +46,453 @@ X-Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000
 {
   "name": "John Doe",
   "email": "john@example.com",
-  "phone": "+7 (900) 123-45-67",
+  "phone": "+1234567890",
   "comment": "Interested in your services",
   "utm_source": "google",
   "utm_medium": "cpc",
-  "utm_campaign": "summer_sale",
-  "utm_term": "web development",
-  "utm_content": "banner1",
-  "source": "website",
-  "medium": "organic",
-  "campaign": "brand_awareness"
+  "utm_campaign": "summer2024",
+  "utm_term": "php development",
+  "utm_content": "banner_ad"
 }
 ```
 
-**Request Body (Form Data):**
+**Request Body (Form URL Encoded):**
 ```
-name=John Doe&email=john@example.com&phone=+7 (900) 123-45-67&comment=Interested in your services&utm_source=google&utm_medium=cpc
+name=John%20Doe&email=john@example.com&phone=%2B1234567890&comment=Interested%20in%20your%20services&utm_source=google&utm_medium=cpc&utm_campaign=summer2024
 ```
 
-**Required Fields:**
-- `name` (string, max 100 characters)
-- `email` (valid email format)
-- `phone` (Russian phone number, will be normalized to +7XXXXXXXXXX format)
+**Field Descriptions:**
 
-**Optional Fields:**
-- `comment` (string, max 1000 characters)
-- `utm_source` (string, max 100 characters)
-- `utm_medium` (string, max 100 characters)
-- `utm_campaign` (string, max 100 characters)
-- `utm_term` (string, max 100 characters)
-- `utm_content` (string, max 100 characters)
-- `source` (string, max 100 characters)
-- `medium` (string, max 100 characters)
-- `campaign` (string, max 100 characters)
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `name` | string | Yes | Contact name | 2-100 characters, alphanumeric and spaces |
+| `email` | string | Yes | Contact email | Valid email format |
+| `phone` | string | Yes | Contact phone | International format (+1234567890) |
+| `comment` | string | No | Lead comment/description | Max 1000 characters |
+| `utm_source` | string | No | UTM source parameter | Max 100 characters |
+| `utm_medium` | string | No | UTM medium parameter | Max 100 characters |
+| `utm_campaign` | string | No | UTM campaign parameter | Max 100 characters |
+| `utm_term` | string | No | UTM term parameter | Max 100 characters |
+| `utm_content` | string | No | UTM content parameter | Max 100 characters |
 
-**Success Response (201 Created):**
+**Success Response (200 OK):**
 ```json
 {
-  "status": "success",
-  "message": "Lead received successfully",
-  "request_id": "lead_64f8a1b2c3d4e5f6_1691621234",
-  "lead_id": "lead_64f8a1b2c3d4e5f6_1691621234",
-  "timestamp": "2023-08-09T23:27:14+00:00",
-  "data_received": {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "phone": "79001234567",
-    "has_comment": true,
-    "utm_params_count": 5,
-    "additional_fields": ["source", "medium", "campaign"]
+  "success": true,
+  "message": "Lead processed successfully",
+  "data": {
+    "lead_id": "12345",
+    "contact_id": "67890",
+    "amo_crm_id": "98765",
+    "created_at": "2024-01-01T12:00:00Z"
   }
 }
 ```
 
-**Error Response (400 Bad Request):**
+**Error Responses:**
+
+**400 Bad Request - Validation Error:**
 ```json
 {
-  "error": "Validation failed",
-  "status": 422,
-  "validation_errors": {
-    "email": "Invalid email format",
-    "phone": "Invalid phone number format"
+  "success": false,
+  "error": "validation_error",
+  "message": "Invalid input data",
+  "details": {
+    "email": ["Invalid email format"],
+    "phone": ["Phone number is required"]
   }
 }
 ```
 
-**Error Response (500 Internal Server Error):**
+**409 Conflict - Duplicate Request:**
 ```json
 {
-  "status": "error",
-  "message": "amoCRM not authenticated. Please complete OAuth2 setup first.",
-  "request_id": "lead_64f8a1b2c3d4e5f6_1691621234",
-  "timestamp": "2023-08-09T23:27:14+00:00"
+  "success": false,
+  "error": "duplicate_request",
+  "message": "Request with this idempotency key already processed",
+  "data": {
+    "lead_id": "12345",
+    "contact_id": "67890",
+    "amo_crm_id": "98765",
+    "created_at": "2024-01-01T12:00:00Z"
+  }
 }
 ```
 
-**Response Headers:**
-```
-Content-Type: application/json
-X-Request-ID: lead_64f8a1b2c3d4e5f6_1691621234
-X-Processing-Time: 45.23ms
+**429 Too Many Requests:**
+```json
+{
+  "success": false,
+  "error": "rate_limit_exceeded",
+  "message": "Rate limit exceeded. Please try again later.",
+  "retry_after": 3600
+}
 ```
 
-### 2. Lead API Health Check
+**500 Internal Server Error:**
+```json
+{
+  "success": false,
+  "error": "internal_error",
+  "message": "An internal error occurred. Please try again later."
+}
+```
+
+### 2. Health Check
 
 **Endpoint:** `GET /api/leads/health`
 
-**Description:** Check the health status of the lead processing service.
+**Description:** Check service health and status.
 
-**Request Headers:**
-```
-Accept: application/json
-```
+**Headers:** None required
 
-**Success Response (200 OK):**
-```json
-{
-  "status": "ok",
-  "timestamp": "2023-08-09T23:27:14+00:00",
-  "service": "lead-api",
-  "version": "1.0.0",
-  "checks": {
-    "amocrm_auth": "ok",
-    "storage_writable": "ok",
-    "validation_system": "ok"
-  },
-  "overall_status": "ok"
-}
-```
-
-**Degraded Response (503 Service Unavailable):**
-```json
-{
-  "status": "ok",
-  "timestamp": "2023-08-09T23:27:14+00:00",
-  "service": "lead-api",
-  "version": "1.0.0",
-  "checks": {
-    "amocrm_auth": "not_configured",
-    "storage_writable": "ok",
-    "validation_system": "ok"
-  },
-  "overall_status": "degraded"
-}
-```
-
-### 3. Validation Rules
-
-**Endpoint:** `GET /api/validation-rules`
-
-**Description:** Get the current validation rules for lead submission.
+**Request:** No body required
 
 **Success Response (200 OK):**
 ```json
 {
-  "required_fields": ["name", "email", "phone"],
-  "field_rules": {
-    "name": {
-      "type": "string",
-      "required": true,
-      "max_length": 100,
-      "description": "Lead name"
-    },
-    "email": {
-      "type": "email",
-      "required": true,
-      "description": "Valid email address"
-    },
-    "phone": {
-      "type": "phone",
-      "required": true,
-      "description": "Russian phone number (will be normalized to +7XXXXXXXXXX format)"
-    },
-    "comment": {
-      "type": "string",
-      "required": false,
-      "max_length": 1000,
-      "description": "Optional comment"
-    }
+  "status": "healthy",
+  "timestamp": "2024-01-01T12:00:00Z",
+  "version": "1.0.0",
+  "services": {
+    "redis": "connected",
+    "amo_crm": "connected"
   }
 }
 ```
 
-### 4. Application Health Check
-
-**Endpoint:** `GET /health`
-
-**Description:** Check the overall health of the application.
-
-**Success Response (200 OK):**
+**Error Response (503 Service Unavailable):**
 ```json
 {
-  "status": "ok",
-  "timestamp": "2023-08-09T23:27:14+00:00",
+  "status": "unhealthy",
+  "timestamp": "2024-01-01T12:00:00Z",
   "version": "1.0.0",
-  "environment": "production",
-  "name": "leads.aiworkplace"
+  "services": {
+    "redis": "disconnected",
+    "amo_crm": "connected"
+  },
+  "errors": [
+    "Redis connection failed"
+  ]
 }
 ```
 
-## Data Validation
-
-### Phone Number Format
-
-The API accepts Russian phone numbers in various formats and normalizes them to the `+7XXXXXXXXXX` format:
-
-**Accepted Formats:**
-- `+7 (900) 123-45-67`
-- `8 (900) 123-45-67`
-- `9001234567`
-- `+79001234567`
-
-**Normalized Output:**
-- `79001234567`
-
-### Email Validation
-
-Emails are validated using PHP's `filter_var` function and are converted to lowercase for consistency.
-
-### UTM Parameters
-
-The following UTM parameters are supported and will be automatically extracted:
-- `utm_source`
-- `utm_medium`
-- `utm_campaign`
-- `utm_term`
-- `utm_content`
-
-## Error Handling
+## Error Codes
 
 ### HTTP Status Codes
 
-- `200` - Success
-- `201` - Created (lead submitted successfully)
-- `400` - Bad Request (invalid request format)
-- `422` - Unprocessable Entity (validation errors)
-- `500` - Internal Server Error
-- `503` - Service Unavailable (health check degraded)
+| Code | Description |
+|------|-------------|
+| 200 | Success |
+| 400 | Bad Request - Validation error |
+| 401 | Unauthorized - Authentication required |
+| 403 | Forbidden - Access denied |
+| 404 | Not Found - Endpoint not found |
+| 409 | Conflict - Duplicate request |
+| 429 | Too Many Requests - Rate limit exceeded |
+| 500 | Internal Server Error |
+| 503 | Service Unavailable |
 
-### Error Response Format
+### Error Types
 
-All error responses follow this format:
-```json
-{
-  "error": "Error description",
-  "status": 400,
-  "message": "Detailed error message"
-}
-```
+| Error Type | Description | HTTP Code |
+|------------|-------------|-----------|
+| `validation_error` | Input validation failed | 400 |
+| `authentication_error` | OAuth2 authentication failed | 401 |
+| `authorization_error` | Access denied | 403 |
+| `not_found` | Resource not found | 404 |
+| `duplicate_request` | Idempotency key already used | 409 |
+| `rate_limit_exceeded` | API rate limit exceeded | 429 |
+| `amo_crm_error` | amoCRM API error | 500 |
+| `internal_error` | Internal server error | 500 |
+| `service_unavailable` | Service temporarily unavailable | 503 |
 
 ## Rate Limiting
 
-Rate limiting is configured but not currently enforced. Future versions may implement rate limiting based on:
-- IP address
-- API key (if implemented)
-- amoCRM API limits
+The API implements rate limiting to prevent abuse and ensure fair usage:
 
-## Logging
+- **API Rate Limit**: 100 requests per hour per client
+- **amoCRM Rate Limit**: 7 requests per minute, 1000 per hour
+- **Rate Limit Headers**: Included in all responses
 
-All API requests are logged with the following information:
-- Request ID
-- IP address
-- User agent
-- Processing time
-- Request data (sanitized for privacy)
-- Response status
+**Rate Limit Headers:**
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1640995200
+```
 
-### Privacy Protection
+## Idempotency
 
-Sensitive data in logs is partially masked:
-- Email: `jo***e@example.com`
-- Phone: `790***4567`
+All POST requests support idempotency to prevent duplicate processing:
+
+- **Header**: `X-Idempotency-Key` (required)
+- **Format**: UUID v4
+- **Window**: 5 minutes
+- **Behavior**: Returns cached response for duplicate keys
+
+**Example:**
+```bash
+curl -X POST /api/leads \
+  -H "Content-Type: application/json" \
+  -H "X-Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000" \
+  -d '{"name": "John Doe", "email": "john@example.com", "phone": "+1234567890"}'
+```
 
 ## CORS Support
 
-The API supports CORS with the following configuration:
-- Allowed origins: Configurable (default: all)
-- Allowed methods: GET, POST, PUT, DELETE, OPTIONS
-- Allowed headers: Content-Type, Authorization, X-Requested-With, X-Idempotency-Key
+The API supports Cross-Origin Resource Sharing (CORS):
 
-## Examples
+- **Allowed Origins**: Configurable via `CORS_ALLOW_ORIGINS`
+- **Methods**: GET, POST, OPTIONS
+- **Headers**: Content-Type, X-Idempotency-Key, Authorization
+- **Credentials**: Not supported
 
-### cURL Example (JSON)
+## Response Format
 
-```bash
-curl -X POST https://your-domain.com/api/leads \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Doe",
-    "email": "john@example.com",
-    "phone": "+7 (900) 123-45-67",
-    "comment": "Interested in your services",
-    "utm_source": "google",
-    "utm_medium": "cpc"
-  }'
+All API responses follow a consistent format:
+
+### Success Response
+```json
+{
+  "success": true,
+  "message": "Operation completed successfully",
+  "data": {
+    // Response data
+  }
+}
 ```
 
-### cURL Example (Form Data)
-
-```bash
-curl -X POST https://your-domain.com/api/leads \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "name=John Doe&email=john@example.com&phone=+7 (900) 123-45-67&comment=Interested in your services"
+### Error Response
+```json
+{
+  "success": false,
+  "error": "error_type",
+  "message": "Human-readable error message",
+  "details": {
+    // Additional error details (optional)
+  }
+}
 ```
 
-### JavaScript Example
+## Integration Examples
+
+### JavaScript/Node.js
 
 ```javascript
-const response = await fetch('https://your-domain.com/api/leads', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '+7 (900) 123-45-67',
-    comment: 'Interested in your services',
-    utm_source: 'google',
-    utm_medium: 'cpc'
-  })
-});
+const axios = require('axios');
+const { v4: uuidv4 } = require('uuid');
 
-const result = await response.json();
-console.log(result);
+async function submitLead(leadData) {
+  try {
+    const response = await axios.post('https://api.example.com/api/leads', leadData, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Idempotency-Key': uuidv4()
+      }
+    });
+    
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    }
+    throw error;
+  }
+}
+
+// Usage
+const lead = {
+  name: 'John Doe',
+  email: 'john@example.com',
+  phone: '+1234567890',
+  comment: 'Interested in services'
+};
+
+submitLead(lead)
+  .then(result => console.log('Lead submitted:', result))
+  .catch(error => console.error('Error:', error.message));
 ```
 
-## Integration Notes
+### PHP
 
-1. **amoCRM Authentication**: The service requires amoCRM OAuth2 authentication to be configured before lead processing can occur.
+```php
+<?php
 
-2. **Validation**: All lead data is validated before processing. Invalid data will result in a 422 error response.
+function submitLead($leadData) {
+    $url = 'https://api.example.com/api/leads';
+    $idempotencyKey = generateUuid();
+    
+    $headers = [
+        'Content-Type: application/json',
+        'X-Idempotency-Key: ' . $idempotencyKey
+    ];
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($leadData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    $result = json_decode($response, true);
+    
+    if ($httpCode >= 400) {
+        throw new Exception($result['message'] ?? 'API request failed');
+    }
+    
+    return $result;
+}
 
-3. **Idempotency**: Future versions will support idempotent requests using the `X-Idempotency-Key` header.
+function generateUuid() {
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0x0fff) | 0x4000,
+        mt_rand(0, 0x3fff) | 0x8000,
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+    );
+}
 
-4. **Webhooks**: Future versions may support webhook notifications for lead status updates.
+// Usage
+try {
+    $lead = [
+        'name' => 'John Doe',
+        'email' => 'john@example.com',
+        'phone' => '+1234567890',
+        'comment' => 'Interested in services'
+    ];
+    
+    $result = submitLead($lead);
+    echo "Lead submitted successfully: " . json_encode($result);
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
+```
 
-5. **Batch Processing**: Future versions may support batch lead submission for multiple leads.
+### Python
+
+```python
+import requests
+import uuid
+import json
+
+def submit_lead(lead_data):
+    url = 'https://api.example.com/api/leads'
+    idempotency_key = str(uuid.uuid4())
+    
+    headers = {
+        'Content-Type': 'application/json',
+        'X-Idempotency-Key': idempotency_key
+    }
+    
+    try:
+        response = requests.post(url, json=lead_data, headers=headers)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        if hasattr(e, 'response') and e.response is not None:
+            error_data = e.response.json()
+            raise Exception(error_data.get('message', 'API request failed'))
+        raise e
+
+# Usage
+lead = {
+    'name': 'John Doe',
+    'email': 'john@example.com',
+    'phone': '+1234567890',
+    'comment': 'Interested in services'
+}
+
+try:
+    result = submit_lead(lead)
+    print(f"Lead submitted successfully: {result}")
+except Exception as e:
+    print(f"Error: {e}")
+```
+
+## Testing
+
+### Test Endpoints
+
+For testing purposes, you can use the following test data:
+
+**Valid Lead Data:**
+```json
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "phone": "+1234567890",
+  "comment": "Test lead submission",
+  "utm_source": "test",
+  "utm_medium": "manual",
+  "utm_campaign": "testing"
+}
+```
+
+**Invalid Lead Data (for testing validation):**
+```json
+{
+  "name": "",
+  "email": "invalid-email",
+  "phone": "123"
+}
+```
+
+### Testing Tools
+
+- **Postman**: Import the API endpoints for testing
+- **cURL**: Use command-line examples above
+- **Unit Tests**: Run `composer test` for automated testing
+
+## Monitoring
+
+### Health Check Monitoring
+
+Monitor the health endpoint to ensure service availability:
+
+```bash
+# Check service health
+curl https://api.example.com/api/leads/health
+
+# Monitor with cron job
+*/5 * * * * curl -f https://api.example.com/api/leads/health || echo "Service down"
+```
+
+### Log Monitoring
+
+Monitor application logs for errors and performance:
+
+- **Application Logs**: `storage/logs/app.log`
+- **Error Logs**: `storage/logs/error.log`
+- **Request Logs**: `storage/logs/request.log`
+
+### Metrics to Monitor
+
+- API response times
+- Error rates
+- Rate limit usage
+- amoCRM API success/failure rates
+- Redis connection status
+
+## Security Considerations
+
+1. **HTTPS**: Always use HTTPS in production
+2. **Rate Limiting**: Implement client-side rate limiting
+3. **Idempotency**: Always use unique idempotency keys
+4. **Input Validation**: Validate all input data
+5. **Error Handling**: Don't expose sensitive information in errors
+6. **Monitoring**: Monitor for suspicious activity
+
+## Support
+
+For API support and questions:
+
+1. Check this documentation
+2. Review error logs
+3. Test with health endpoint
+4. Contact the development team
