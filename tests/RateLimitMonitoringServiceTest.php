@@ -4,15 +4,15 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use App\Services\RateLimitMonitoringService;
+use App\Services\RedisInterface;
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
-use Predis\Client as RedisClient;
 
 class RateLimitMonitoringServiceTest extends TestCase
 {
     private RateLimitMonitoringService $monitoringService;
     private TestHandler $logHandler;
-    private RedisClient $redis;
+    private RedisInterface $redis;
 
     protected function setUp(): void
     {
@@ -20,11 +20,7 @@ class RateLimitMonitoringServiceTest extends TestCase
         $logger = new Logger('test');
         $logger->pushHandler($this->logHandler);
 
-        $this->redis = new RedisClient([
-            'host' => $_ENV['REDIS_HOST'] ?? 'localhost',
-            'port' => $_ENV['REDIS_PORT'] ?? 6379,
-            'database' => 12 // Use separate database for testing
-        ]);
+        $this->redis = $this->createMock(RedisInterface::class);
 
         $this->monitoringService = new RateLimitMonitoringService(
             $logger,
@@ -34,14 +30,12 @@ class RateLimitMonitoringServiceTest extends TestCase
         );
     }
 
-    protected function tearDown(): void
-    {
-        // Clean up test data
-        $this->redis->flushdb();
-    }
+
 
     public function testGetRateLimitMetricsWithNoData(): void
     {
+        $this->redis->method('keys')->willReturn([]);
+        
         $metrics = $this->monitoringService->getRateLimitMetrics();
 
         $this->assertEquals(0, $metrics['summary']['total_rate_limit_keys']);
@@ -54,11 +48,23 @@ class RateLimitMonitoringServiceTest extends TestCase
     public function testGetRateLimitMetricsWithData(): void
     {
         // Set up test data
-        $this->redis->setex('test_rate_limit:ip:192.168.1.1', 3600, '85');
-        $this->redis->setex('test_rate_limit:ip:192.168.1.2', 3600, '120');
-        $this->redis->setex('test_rate_limit:api_key:test-key', 3600, '50');
-        $this->redis->setex('test_amocrm_throttle:minute:contacts:2024-01-01-12-00', 60, '5');
-        $this->redis->setex('test_amocrm_throttle:hour:leads:2024-01-01-12', 3600, '50');
+        $this->redis->method('keys')->willReturn([
+            'test_rate_limit:ip:192.168.1.1',
+            'test_rate_limit:ip:192.168.1.2',
+            'test_rate_limit:api_key:test-key',
+            'test_amocrm_throttle:minute:contacts:2024-01-01-12-00',
+            'test_amocrm_throttle:hour:leads:2024-01-01-12'
+        ]);
+        
+        $this->redis->method('get')->willReturnMap([
+            ['test_rate_limit:ip:192.168.1.1', '85'],
+            ['test_rate_limit:ip:192.168.1.2', '120'],
+            ['test_rate_limit:api_key:test-key', '50'],
+            ['test_amocrm_throttle:minute:contacts:2024-01-01-12-00', '5'],
+            ['test_amocrm_throttle:hour:leads:2024-01-01-12', '50']
+        ]);
+        
+        $this->redis->method('ttl')->willReturn(3600);
 
         $metrics = $this->monitoringService->getRateLimitMetrics();
 

@@ -45,7 +45,7 @@ class AmoCrmAuthTest extends TestCase
         
         $this->assertStringContainsString('https://test.amocrm.ru/oauth/authorize', $authUrl);
         $this->assertStringContainsString('client_id=test_client_id', $authUrl);
-        $this->assertStringContainsString('redirect_uri=https%3A//test.com/oauth/callback', $authUrl);
+        $this->assertStringContainsString('redirect_uri=https%3A%2F%2Ftest.com%2Foauth%2Fcallback', $authUrl);
         $this->assertStringContainsString('response_type=code', $authUrl);
         $this->assertStringContainsString('state=', $authUrl);
     }
@@ -99,6 +99,7 @@ class AmoCrmAuthTest extends TestCase
         ];
 
         file_put_contents($this->tempTokenFile, json_encode($testTokens));
+        chmod($this->tempTokenFile, 0600);
         
         // Check if file has correct permissions (0600)
         $permissions = fileperms($this->tempTokenFile) & 0777;
@@ -223,6 +224,19 @@ class AmoCrmAuthTest extends TestCase
 
     public function testLoggingOnTokenOperations()
     {
+        // Create test tokens first
+        $testTokens = [
+            'access_token' => 'test_access_token',
+            'refresh_token' => 'test_refresh_token',
+            'expires_in' => 3600,
+            'expires_at' => time() + 3600,
+            'token_type' => 'Bearer',
+            'updated_at' => date('c')
+        ];
+
+        file_put_contents($this->tempTokenFile, json_encode($testTokens));
+        chmod($this->tempTokenFile, 0600);
+
         // Test that logging occurs during token operations
         $this->authService->clearTokens();
         

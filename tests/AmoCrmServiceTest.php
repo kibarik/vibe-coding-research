@@ -5,6 +5,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 use App\Services\AmoCrmService;
 use App\Services\AmoCrmAuthService;
+use App\Services\AmoCrmThrottlingService;
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
 
@@ -13,6 +14,7 @@ class AmoCrmServiceTest extends TestCase
     private AmoCrmService $service;
     private TestHandler $logHandler;
     private AmoCrmAuthService $mockAuthService;
+    private AmoCrmThrottlingService $mockThrottlingService;
 
     protected function setUp(): void
     {
@@ -37,7 +39,8 @@ class AmoCrmServiceTest extends TestCase
             ]
         ];
 
-        $this->service = new AmoCrmService($this->mockAuthService, $logger, $config);
+        $this->mockThrottlingService = $this->createMock(AmoCrmThrottlingService::class);
+        $this->service = new AmoCrmService($this->mockAuthService, $logger, $config, $this->mockThrottlingService);
     }
 
     public function testCreateLeadSuccess()
@@ -52,7 +55,7 @@ class AmoCrmServiceTest extends TestCase
 
         // Create a mock service that returns predefined responses
         $mockService = $this->getMockBuilder(AmoCrmService::class)
-            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []]])
+            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []], $this->mockThrottlingService])
             ->onlyMethods(['makeApiRequest'])
             ->getMock();
 
@@ -112,7 +115,7 @@ class AmoCrmServiceTest extends TestCase
         $this->mockAuthService->method('getValidAccessToken')->willReturn('valid_token');
 
         $mockService = $this->getMockBuilder(AmoCrmService::class)
-            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []]])
+            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []], $this->mockThrottlingService])
             ->onlyMethods(['makeApiRequest'])
             ->getMock();
 
@@ -172,7 +175,7 @@ class AmoCrmServiceTest extends TestCase
         $this->mockAuthService->method('getValidAccessToken')->willReturn('valid_token');
 
         $mockService = $this->getMockBuilder(AmoCrmService::class)
-            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []]])
+            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []], $this->mockThrottlingService])
             ->onlyMethods(['makeApiRequest'])
             ->getMock();
 
@@ -255,7 +258,7 @@ class AmoCrmServiceTest extends TestCase
         $this->mockAuthService->method('getValidAccessToken')->willReturn('valid_token');
 
         $mockService = $this->getMockBuilder(AmoCrmService::class)
-            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []]])
+            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []], $this->mockThrottlingService])
             ->onlyMethods(['makeApiRequest'])
             ->getMock();
 
@@ -280,7 +283,7 @@ class AmoCrmServiceTest extends TestCase
         $this->mockAuthService->method('refreshToken')->willReturn(['access_token' => 'new_token']);
 
         $mockService = $this->getMockBuilder(AmoCrmService::class)
-            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []]])
+            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []], $this->mockThrottlingService])
             ->onlyMethods(['makeApiRequest'])
             ->getMock();
 
@@ -304,7 +307,7 @@ class AmoCrmServiceTest extends TestCase
         $this->mockAuthService->method('getValidAccessToken')->willReturn('valid_token');
 
         $mockService = $this->getMockBuilder(AmoCrmService::class)
-            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []]])
+            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []], $this->mockThrottlingService])
             ->onlyMethods(['makeApiRequest'])
             ->getMock();
 
@@ -357,7 +360,7 @@ class AmoCrmServiceTest extends TestCase
         $this->mockAuthService->method('getValidAccessToken')->willReturn('valid_token');
 
         $mockService = $this->getMockBuilder(AmoCrmService::class)
-            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []]])
+            ->setConstructorArgs([$this->mockAuthService, new Logger('test'), ['subdomain' => 'test', 'field_ids' => []], $this->mockThrottlingService])
             ->onlyMethods(['makeApiRequest'])
             ->getMock();
 

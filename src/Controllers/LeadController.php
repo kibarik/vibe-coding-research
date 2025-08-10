@@ -64,10 +64,23 @@ class LeadController
                 'data_received' => [
                     'name' => $validatedData['name'],
                     'email' => $validatedData['email'],
-                    'phone' => $validatedData['phone'],
-                    'has_comment' => isset($validatedData['comment']),
+                    'company' => $validatedData['company'],
+                    'contact_channel' => $validatedData['contact_channel'] ?? null,
+                    'telegram' => $validatedData['telegram'] ?? null,
+                    'whatsapp' => $validatedData['whatsapp'] ?? null,
+                    'phone' => $validatedData['phone'] ?? null,
+                    'meeting_date' => $validatedData['meeting_date'] ?? null,
+                    'meeting_time' => $validatedData['meeting_time'] ?? null,
+                    'company_size' => $validatedData['company_size'] ?? null,
+                    'role' => $validatedData['role'] ?? null,
+                    'main_task' => $validatedData['main_task'] ?? null,
+                    'additional_info' => $validatedData['additional_info'] ?? null,
                     'utm_params_count' => count($validatedData['utm_params'] ?? []),
-                    'additional_fields' => array_keys(array_diff_key($validatedData, array_flip(['name', 'email', 'phone', 'comment', 'utm_params'])))
+                    'additional_fields' => array_keys(array_diff_key($validatedData, array_flip([
+                        'name', 'email', 'company', 'contact_channel', 'telegram', 'whatsapp', 
+                        'phone', 'meeting_date', 'meeting_time', 'company_size', 'role', 
+                        'main_task', 'additional_info', 'utm_params'
+                    ])))
                 ],
                 'amocrm_processing_time_ms' => $amocrmResult['processing_time_ms']
             ];
@@ -76,7 +89,7 @@ class LeadController
             $processingTime = (microtime(true) - $startTime) * 1000;
             $this->logger->info('Lead processed successfully', [
                 'request_id' => $requestId,
-                'lead_id' => $leadId,
+                'lead_id' => $amocrmResult['amocrm_lead_id'],
                 'processing_time_ms' => round($processingTime, 2),
                 'ip' => $request->getServerParams()['REMOTE_ADDR'] ?? 'unknown'
             ]);

@@ -40,6 +40,24 @@ class Validator
     }
 
     /**
+     * Validate date format (YYYY-MM-DD)
+     */
+    public static function validateDate(string $date): bool
+    {
+        $dateTime = \DateTime::createFromFormat('Y-m-d', $date);
+        return $dateTime !== false && $dateTime->format('Y-m-d') === $date;
+    }
+
+    /**
+     * Validate time format (HH:MM)
+     */
+    public static function validateTime(string $time): bool
+    {
+        $dateTime = \DateTime::createFromFormat('H:i', $time);
+        return $dateTime !== false && $dateTime->format('H:i') === $time;
+    }
+
+    /**
      * Validate UTM parameters
      */
     public static function validateUtmParams(array $utmParams): array

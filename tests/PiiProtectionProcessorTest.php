@@ -20,7 +20,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['email' => 'test@example.com'],
             []
@@ -36,7 +36,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['email' => 'john.doe@example.com'],
             []
@@ -52,7 +52,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['phone' => '+79001234567'],
             []
@@ -68,7 +68,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['card' => '1234-5678-9012-3456'],
             []
@@ -84,7 +84,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['ssn' => '123-45-6789'],
             []
@@ -100,7 +100,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['ip' => '192.168.1.100'],
             []
@@ -116,7 +116,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['access_token' => 'secret-token-123'],
             []
@@ -132,7 +132,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             [
                 'user' => [
@@ -156,7 +156,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             [],
             ['api_key' => 'secret-api-key-456']
@@ -172,7 +172,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['email' => 'invalid-email'],
             []
@@ -188,7 +188,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['phone' => '123'],
             []
@@ -204,7 +204,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['card' => '123'],
             []
@@ -220,7 +220,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['ssn' => '123'],
             []
@@ -236,7 +236,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['ip' => 'invalid-ip'],
             []
@@ -252,7 +252,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             [
                 'number' => 123,
@@ -276,7 +276,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             ['token' => 'abc'],
             []
@@ -292,7 +292,7 @@ class PiiProtectionProcessorTest extends TestCase
         $record = new LogRecord(
             new \DateTimeImmutable(),
             'test',
-            \Monolog\Logger::INFO,
+            \Monolog\Level::Info,
             'Test message',
             [
                 'ACCESS_TOKEN' => 'secret-token',

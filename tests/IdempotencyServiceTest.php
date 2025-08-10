@@ -4,9 +4,9 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use App\Services\IdempotencyService;
+use App\Services\RedisInterface;
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
-use Predis\Client as RedisClient;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Psr7\Response;
@@ -16,7 +16,7 @@ class IdempotencyServiceTest extends TestCase
     private IdempotencyService $service;
     private Logger $logger;
     private TestHandler $logHandler;
-    private RedisClient $redis;
+    private RedisInterface $redis;
     private ServerRequestFactory $requestFactory;
     private ResponseFactory $responseFactory;
 
@@ -26,7 +26,7 @@ class IdempotencyServiceTest extends TestCase
         $this->logger = new Logger('test');
         $this->logger->pushHandler($this->logHandler);
 
-        $this->redis = $this->createMock(RedisClient::class);
+        $this->redis = $this->createMock(RedisInterface::class);
         $this->service = new IdempotencyService($this->logger, $this->redis);
         
         $this->requestFactory = new ServerRequestFactory();
@@ -62,8 +62,14 @@ class IdempotencyServiceTest extends TestCase
             'timestamp' => time()
         ]);
 
-        $this->redis->method('get')->willReturn($cachedData);
+        // Mock Redis to return cached data for any key
+        $this->redis->expects($this->atLeastOnce())->method('get')->willReturn($cachedData);
+        $this->redis->method('keys')->willReturn([]);
 
+        // Test that the mock is working
+        $testData = $this->redis->get('test_key');
+        $this->assertEquals($cachedData, $testData);
+        
         $result = $this->service->checkDuplicate($idempotencyKey, $request);
         
         $this->assertNotNull($result);

@@ -5,16 +5,15 @@ namespace App\Services;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Monolog\Logger;
-use Predis\Client as RedisClient;
 
 class IdempotencyService
 {
     private Logger $logger;
-    private RedisClient $redis;
+    private RedisInterface $redis;
     private const TTL_SECONDS = 300; // 5 minutes
     private const KEY_PREFIX = 'idempotency:';
 
-    public function __construct(Logger $logger, RedisClient $redis)
+    public function __construct(Logger $logger, RedisInterface $redis)
     {
         $this->logger = $logger;
         $this->redis = $redis;
@@ -28,13 +27,21 @@ class IdempotencyService
         try {
             // Check if we have a cached response
             $cachedData = $this->redis->get($cacheKey);
+            $this->logger->debug('Checking cache for key', ['key' => $cacheKey, 'data' => $cachedData]);
             if ($cachedData !== null) {
                 $this->logger->info('Found cached response for duplicate request', [
                     'key' => $this->maskIdempotencyKey($idempotencyKey),
                     'hash' => $this->maskHash($hash)
                 ]);
                 
-                return $this->deserializeResponse($cachedData);
+                try {
+                    $response = $this->deserializeResponse($cachedData);
+                    $this->logger->debug('Deserialized response', ['response' => $response]);
+                    return $response;
+                } catch (\Exception $e) {
+                    $this->logger->error('Error deserializing response', ['error' => $e->getMessage()]);
+                    return null;
+                }
             }
 
             // Check if this is a duplicate hash within the time window

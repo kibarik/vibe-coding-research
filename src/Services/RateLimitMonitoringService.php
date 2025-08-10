@@ -3,18 +3,17 @@
 namespace App\Services;
 
 use Monolog\Logger;
-use Predis\Client as RedisClient;
 
 class RateLimitMonitoringService
 {
     private Logger $logger;
-    private RedisClient $redis;
+    private RedisInterface $redis;
     private string $rateLimitPrefix;
     private string $throttlePrefix;
 
     public function __construct(
         Logger $logger,
-        RedisClient $redis,
+        RedisInterface $redis,
         string $rateLimitPrefix = 'rate_limit:',
         string $throttlePrefix = 'amocrm_throttle:'
     ) {

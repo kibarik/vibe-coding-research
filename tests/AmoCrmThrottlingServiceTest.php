@@ -4,15 +4,15 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use App\Services\AmoCrmThrottlingService;
+use App\Services\RedisInterface;
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
-use Predis\Client as RedisClient;
 
 class AmoCrmThrottlingServiceTest extends TestCase
 {
     private AmoCrmThrottlingService $throttlingService;
     private TestHandler $logHandler;
-    private RedisClient $redis;
+    private RedisInterface $redis;
 
     protected function setUp(): void
     {
@@ -20,11 +20,7 @@ class AmoCrmThrottlingServiceTest extends TestCase
         $logger = new Logger('test');
         $logger->pushHandler($this->logHandler);
 
-        $this->redis = new RedisClient([
-            'host' => $_ENV['REDIS_HOST'] ?? 'localhost',
-            'port' => $_ENV['REDIS_PORT'] ?? 6379,
-            'database' => 14 // Use separate database for testing
-        ]);
+        $this->redis = $this->createMock(RedisInterface::class);
 
         $this->throttlingService = new AmoCrmThrottlingService(
             $logger,

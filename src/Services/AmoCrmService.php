@@ -91,10 +91,8 @@ class AmoCrmService
         $existingContact = $this->findContactByEmail($leadData['email'], $accessToken);
 
         if ($existingContact) {
-            // Update existing contact with new phone if different
-            if ($existingContact['phone'] !== $leadData['phone']) {
-                $this->updateContactPhone($existingContact['id'], $leadData['phone'], $accessToken);
-            }
+            // Update existing contact with new data if different
+            $this->updateContactData($existingContact['id'], $leadData, $accessToken);
             return $existingContact;
         }
 
@@ -136,29 +134,83 @@ class AmoCrmService
     {
         $url = "https://{$this->subdomain}.amocrm.ru/api/v4/contacts";
 
+        $customFields = [
+            [
+                'field_id' => $this->getEmailFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['email'],
+                        'enum_code' => 'WORK'
+                    ]
+                ]
+            ]
+        ];
+
+        // Add phone if provided
+        if (!empty($leadData['phone'])) {
+            $customFields[] = [
+                'field_id' => $this->getPhoneFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['phone'],
+                        'enum_code' => 'WORK'
+                    ]
+                ]
+            ];
+        }
+
+        // Add company field
+        if (!empty($leadData['company'])) {
+            $customFields[] = [
+                'field_id' => $this->getCompanyFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['company']
+                    ]
+                ]
+            ];
+        }
+
+        // Add telegram if provided
+        if (!empty($leadData['telegram'])) {
+            $customFields[] = [
+                'field_id' => $this->getTelegramFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['telegram']
+                    ]
+                ]
+            ];
+        }
+
+        // Add WhatsApp if provided
+        if (!empty($leadData['whatsapp'])) {
+            $customFields[] = [
+                'field_id' => $this->getWhatsappFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['whatsapp']
+                    ]
+                ]
+            ];
+        }
+
+        // Add role if provided
+        if (!empty($leadData['role'])) {
+            $customFields[] = [
+                'field_id' => $this->getRoleFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['role']
+                    ]
+                ]
+            ];
+        }
+
         $contactData = [
             [
                 'name' => $leadData['name'],
-                'custom_fields_values' => [
-                    [
-                        'field_id' => $this->getEmailFieldId(),
-                        'values' => [
-                            [
-                                'value' => $leadData['email'],
-                                'enum_code' => 'WORK'
-                            ]
-                        ]
-                    ],
-                    [
-                        'field_id' => $this->getPhoneFieldId(),
-                        'values' => [
-                            [
-                                'value' => $leadData['phone'],
-                                'enum_code' => 'WORK'
-                            ]
-                        ]
-                    ]
-                ]
+                'custom_fields_values' => $customFields
             ]
         ];
 
@@ -170,32 +222,88 @@ class AmoCrmService
             'id' => $contact['id'],
             'name' => $contact['name'],
             'email' => $leadData['email'],
-            'phone' => $leadData['phone']
+            'phone' => $leadData['phone'] ?? null,
+            'company' => $leadData['company'] ?? null
         ];
     }
 
     /**
-     * Update contact phone number
+     * Update contact data
      */
-    private function updateContactPhone(int $contactId, string $phone, string $accessToken): void
+    private function updateContactData(int $contactId, array $leadData, string $accessToken): void
     {
         $url = "https://{$this->subdomain}.amocrm.ru/api/v4/contacts/{$contactId}";
 
-        $updateData = [
-            'custom_fields_values' => [
-                [
-                    'field_id' => $this->getPhoneFieldId(),
-                    'values' => [
-                        [
-                            'value' => $phone,
-                            'enum_code' => 'WORK'
-                        ]
+        $customFields = [];
+
+        // Update phone if provided and different
+        if (!empty($leadData['phone'])) {
+            $customFields[] = [
+                'field_id' => $this->getPhoneFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['phone'],
+                        'enum_code' => 'WORK'
                     ]
                 ]
-            ]
-        ];
+            ];
+        }
 
-        $this->makeApiRequest($url, 'PATCH', $accessToken, null, $updateData);
+        // Update company if provided
+        if (!empty($leadData['company'])) {
+            $customFields[] = [
+                'field_id' => $this->getCompanyFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['company']
+                    ]
+                ]
+            ];
+        }
+
+        // Update telegram if provided
+        if (!empty($leadData['telegram'])) {
+            $customFields[] = [
+                'field_id' => $this->getTelegramFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['telegram']
+                    ]
+                ]
+            ];
+        }
+
+        // Update WhatsApp if provided
+        if (!empty($leadData['whatsapp'])) {
+            $customFields[] = [
+                'field_id' => $this->getWhatsappFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['whatsapp']
+                    ]
+                ]
+            ];
+        }
+
+        // Update role if provided
+        if (!empty($leadData['role'])) {
+            $customFields[] = [
+                'field_id' => $this->getRoleFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['role']
+                    ]
+                ]
+            ];
+        }
+
+        if (!empty($customFields)) {
+            $updateData = [
+                'custom_fields_values' => $customFields
+            ];
+
+            $this->makeApiRequest($url, 'PATCH', $accessToken, null, $updateData);
+        }
     }
 
     /**
@@ -207,20 +315,80 @@ class AmoCrmService
 
         $leadApiData = [
             [
-                'name' => "Lead: {$leadData['name']}",
+                'name' => "Lead: {$leadData['name']} ({$leadData['company']})",
                 'price' => 0,
                 'contacts_id' => [$contactId],
                 'custom_fields_values' => []
             ]
         ];
 
-        // Add comment if provided
-        if (!empty($leadData['comment'])) {
+        // Add contact channel if provided
+        if (!empty($leadData['contact_channel'])) {
             $leadApiData[0]['custom_fields_values'][] = [
-                'field_id' => $this->getCommentFieldId(),
+                'field_id' => $this->getContactChannelFieldId(),
                 'values' => [
                     [
-                        'value' => $leadData['comment']
+                        'value' => $leadData['contact_channel']
+                    ]
+                ]
+            ];
+        }
+
+        // Add meeting date if provided
+        if (!empty($leadData['meeting_date'])) {
+            $leadApiData[0]['custom_fields_values'][] = [
+                'field_id' => $this->getMeetingDateFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['meeting_date']
+                    ]
+                ]
+            ];
+        }
+
+        // Add meeting time if provided
+        if (!empty($leadData['meeting_time'])) {
+            $leadApiData[0]['custom_fields_values'][] = [
+                'field_id' => $this->getMeetingTimeFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['meeting_time']
+                    ]
+                ]
+            ];
+        }
+
+        // Add company size if provided
+        if (!empty($leadData['company_size'])) {
+            $leadApiData[0]['custom_fields_values'][] = [
+                'field_id' => $this->getCompanySizeFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['company_size']
+                    ]
+                ]
+            ];
+        }
+
+        // Add main task if provided
+        if (!empty($leadData['main_task'])) {
+            $leadApiData[0]['custom_fields_values'][] = [
+                'field_id' => $this->getMainTaskFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['main_task']
+                    ]
+                ]
+            ];
+        }
+
+        // Add additional information if provided
+        if (!empty($leadData['additional_info'])) {
+            $leadApiData[0]['custom_fields_values'][] = [
+                'field_id' => $this->getAdditionalInfoFieldId(),
+                'values' => [
+                    [
+                        'value' => $leadData['additional_info']
                     ]
                 ]
             ];
@@ -452,6 +620,56 @@ class AmoCrmService
     private function getUtmContentFieldId(): int
     {
         return $this->config['field_ids']['utm_content'] ?? 123464;
+    }
+
+    private function getCompanyFieldId(): int
+    {
+        return $this->config['field_ids']['company'] ?? 123465;
+    }
+
+    private function getTelegramFieldId(): int
+    {
+        return $this->config['field_ids']['telegram'] ?? 123466;
+    }
+
+    private function getWhatsappFieldId(): int
+    {
+        return $this->config['field_ids']['whatsapp'] ?? 123467;
+    }
+
+    private function getRoleFieldId(): int
+    {
+        return $this->config['field_ids']['role'] ?? 123468;
+    }
+
+    private function getContactChannelFieldId(): int
+    {
+        return $this->config['field_ids']['contact_channel'] ?? 123469;
+    }
+
+    private function getMeetingDateFieldId(): int
+    {
+        return $this->config['field_ids']['meeting_date'] ?? 123470;
+    }
+
+    private function getMeetingTimeFieldId(): int
+    {
+        return $this->config['field_ids']['meeting_time'] ?? 123471;
+    }
+
+    private function getCompanySizeFieldId(): int
+    {
+        return $this->config['field_ids']['company_size'] ?? 123472;
+    }
+
+    private function getMainTaskFieldId(): int
+    {
+        return $this->config['field_ids']['main_task'] ?? 123473;
+    }
+
+    private function getAdditionalInfoFieldId(): int
+    {
+        return $this->config['field_ids']['additional_info'] ?? 123474;
     }
 
     /**

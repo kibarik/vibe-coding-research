@@ -3,19 +3,18 @@
 namespace App\Services;
 
 use Monolog\Logger;
-use Predis\Client as RedisClient;
 
 class AmoCrmThrottlingService
 {
     private Logger $logger;
-    private RedisClient $redis;
+    private RedisInterface $redis;
     private int $maxRequestsPerMinute;
     private int $maxRequestsPerHour;
     private string $redisPrefix;
 
     public function __construct(
         Logger $logger,
-        RedisClient $redis,
+        RedisInterface $redis,
         int $maxRequestsPerMinute = 7, // amoCRM default: 7 requests per second
         int $maxRequestsPerHour = 1000, // Conservative hourly limit
         string $redisPrefix = 'amocrm_throttle:'

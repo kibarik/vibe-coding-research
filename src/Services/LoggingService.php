@@ -11,6 +11,7 @@ use Monolog\Processor\IntrospectionProcessor;
 use Monolog\Processor\MemoryUsageProcessor;
 use Monolog\Processor\ProcessIdProcessor;
 use Monolog\Processor\UidProcessor;
+use App\Logging\PiiProtectionProcessor;
 
 class LoggingService
 {

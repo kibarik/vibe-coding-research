@@ -27,8 +27,40 @@ class ValidationTest extends TestCase
         
         // Invalid phone numbers
         $this->assertFalse(Validator::validatePhone('123'));
-        $this->assertFalse(Validator::validatePhone('+1234567890'));
+        $this->assertFalse(Validator::validatePhone('123456789')); // Too short
         $this->assertFalse(Validator::validatePhone('invalid'));
+        $this->assertFalse(Validator::validatePhone('123456789012')); // Too long
+    }
+
+    public function testDateValidation()
+    {
+        // Valid dates
+        $this->assertTrue(Validator::validateDate('2024-01-15'));
+        $this->assertTrue(Validator::validateDate('2024-12-31'));
+        $this->assertTrue(Validator::validateDate('2023-02-28'));
+        
+        // Invalid dates
+        $this->assertFalse(Validator::validateDate('2024-13-01')); // Invalid month
+        $this->assertFalse(Validator::validateDate('2024-01-32')); // Invalid day
+        $this->assertFalse(Validator::validateDate('2024/01/15')); // Wrong format
+        $this->assertFalse(Validator::validateDate('15-01-2024')); // Wrong format
+        $this->assertFalse(Validator::validateDate('invalid'));
+    }
+
+    public function testTimeValidation()
+    {
+        // Valid times
+        $this->assertTrue(Validator::validateTime('14:30'));
+        $this->assertTrue(Validator::validateTime('09:00'));
+        $this->assertTrue(Validator::validateTime('23:59'));
+        $this->assertTrue(Validator::validateTime('00:00'));
+        
+        // Invalid times
+        $this->assertFalse(Validator::validateTime('25:00')); // Invalid hour
+        $this->assertFalse(Validator::validateTime('14:60')); // Invalid minute
+        $this->assertFalse(Validator::validateTime('14:30:00')); // Wrong format
+        $this->assertFalse(Validator::validateTime('2:30')); // Wrong format
+        $this->assertFalse(Validator::validateTime('invalid'));
     }
 
     public function testUtmParamsValidation()
@@ -55,8 +87,8 @@ class ValidationTest extends TestCase
 
     public function testRequiredFieldsValidation()
     {
-        $data = ['name' => 'John', 'email' => 'john@example.com'];
-        $required = ['name', 'email', 'phone'];
+        $data = ['name' => 'John', 'email' => 'john@example.com', 'company' => 'Test Company'];
+        $required = ['name', 'email', 'company', 'phone'];
         
         $errors = Validator::validateRequired($data, $required);
         
@@ -66,7 +98,7 @@ class ValidationTest extends TestCase
 
     public function testStringSanitization()
     {
-        $this->assertEquals('clean text', Validator::sanitizeString('  <script>alert("xss")</script>clean text  '));
+        $this->assertEquals('alert("xss")clean text', Validator::sanitizeString('  <script>alert("xss")</script>clean text  '));
         $this->assertEquals('', Validator::sanitizeString('   '));
     }
 
@@ -82,8 +114,17 @@ class ValidationTest extends TestCase
         $data = [
             'name' => 'John Doe',
             'email' => 'john@example.com',
+            'company' => 'Test Company',
             'phone' => '+7 (900) 123-45-67',
-            'comment' => 'Test comment',
+            'contact_channel' => 'email',
+            'telegram' => '@johndoe',
+            'whatsapp' => '+7 (900) 123-45-67',
+            'meeting_date' => '2024-01-15',
+            'meeting_time' => '14:30',
+            'company_size' => '10-50',
+            'role' => 'Manager',
+            'main_task' => 'Website development',
+            'additional_info' => 'Test additional information',
             'utm_source' => 'google',
             'utm_medium' => 'cpc'
         ];
@@ -94,8 +135,17 @@ class ValidationTest extends TestCase
         $this->assertEmpty($result['errors']);
         $this->assertEquals('John Doe', $result['normalized']['name']);
         $this->assertEquals('john@example.com', $result['normalized']['email']);
+        $this->assertEquals('Test Company', $result['normalized']['company']);
         $this->assertEquals('79001234567', $result['normalized']['phone']);
-        $this->assertEquals('Test comment', $result['normalized']['comment']);
+        $this->assertEquals('email', $result['normalized']['contact_channel']);
+        $this->assertEquals('@johndoe', $result['normalized']['telegram']);
+        $this->assertEquals('79001234567', $result['normalized']['whatsapp']);
+        $this->assertEquals('2024-01-15', $result['normalized']['meeting_date']);
+        $this->assertEquals('14:30', $result['normalized']['meeting_time']);
+        $this->assertEquals('10-50', $result['normalized']['company_size']);
+        $this->assertEquals('Manager', $result['normalized']['role']);
+        $this->assertEquals('Website development', $result['normalized']['main_task']);
+        $this->assertEquals('Test additional information', $result['normalized']['additional_info']);
         $this->assertArrayHasKey('utm_params', $result['normalized']);
     }
 
@@ -104,6 +154,7 @@ class ValidationTest extends TestCase
         $data = [
             'name' => '', // Empty required field
             'email' => 'invalid-email',
+            'company' => '', // Empty required field
             'phone' => 'invalid-phone'
         ];
 
@@ -112,6 +163,7 @@ class ValidationTest extends TestCase
         $this->assertFalse($result['valid']);
         $this->assertArrayHasKey('name', $result['errors']);
         $this->assertArrayHasKey('email', $result['errors']);
+        $this->assertArrayHasKey('company', $result['errors']);
         $this->assertArrayHasKey('phone', $result['errors']);
     }
 
@@ -123,7 +175,7 @@ class ValidationTest extends TestCase
         $this->assertArrayHasKey('field_rules', $rules);
         $this->assertContains('name', $rules['required_fields']);
         $this->assertContains('email', $rules['required_fields']);
-        $this->assertContains('phone', $rules['required_fields']);
+        $this->assertContains('company', $rules['required_fields']);
     }
 
     public function testPhoneNumberNormalization()

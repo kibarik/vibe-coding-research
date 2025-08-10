@@ -28,10 +28,10 @@ class PiiProtectionProcessor
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $record->extra = $this->sanitizeData($record->extra);
-        $record->context = $this->sanitizeData($record->context);
+        $sanitizedExtra = $this->sanitizeData($record->extra);
+        $sanitizedContext = $this->sanitizeData($record->context);
         
-        return $record;
+        return $record->with(extra: $sanitizedExtra, context: $sanitizedContext);
     }
 
     private function sanitizeData(array $data): array

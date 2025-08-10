@@ -14,6 +14,8 @@ use App\Middleware\IdempotencyMiddleware;
 use App\Middleware\RequestLoggingMiddleware;
 use App\Services\AmoCrmAuthService;
 use App\Services\AmoCrmService;
+use App\Services\AmoCrmThrottlingService;
+use App\Services\PredisAdapter;
 use App\Services\IdempotencyService;
 use App\Services\LoggingService;
 use App\Controllers\LeadController;
@@ -39,8 +41,11 @@ $redis = new RedisClient([
     'timeout' => $config['redis']['timeout'],
 ]);
 
+// Create Redis adapter
+$redisAdapter = new PredisAdapter($redis);
+
 // Create idempotency service
-$idempotencyService = new IdempotencyService($logger, $redis);
+$idempotencyService = new IdempotencyService($logger, $redisAdapter);
 
 // Create Slim app
 $app = AppFactory::create();
@@ -67,8 +72,16 @@ $amocrmConfig = [
 ];
 $amocrmAuth = new AmoCrmAuthService($amocrmConfig, $logger);
 
+// Create amoCRM throttling service
+$amocrmThrottlingService = new AmoCrmThrottlingService(
+    $logger, 
+    $redisAdapter,
+    $config['amocrm']['rate_limit_per_minute'] ?? 7,
+    $config['amocrm']['rate_limit_per_hour'] ?? 1000
+);
+
 // Create amoCRM service
-$amocrmService = new AmoCrmService($amocrmAuth, $logger, $config['amocrm']);
+$amocrmService = new AmoCrmService($amocrmAuth, $logger, $config['amocrm'], $amocrmThrottlingService);
 
 // Create lead controller
 $leadController = new LeadController($logger, $amocrmAuth, $amocrmService);
