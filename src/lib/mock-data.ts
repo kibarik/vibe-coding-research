@@ -7,174 +7,67 @@ export const mockPosts: Post[] = [
     databaseId: 1,
     title: 'Getting Started with Next.js 15 and TypeScript',
     excerpt: 'Learn how to set up a modern Next.js 15 project with TypeScript, Tailwind CSS, and best practices for optimal performance and developer experience. We\'ll cover everything from initial setup to deployment.',
-    content: `
-      <h2>Introduction</h2>
-      <p>Next.js 15 brings exciting new features and improvements that make building modern web applications even more powerful. In this comprehensive guide, we'll walk through setting up a Next.js 15 project with TypeScript and Tailwind CSS, covering everything from initial setup to deployment.</p>
+    content: 
+      '<h2>Introduction</h2>' +
+      '<p>Next.js 15 brings exciting new features and improvements that make building modern web applications even more powerful. In this comprehensive guide, we\'ll walk through setting up a Next.js 15 project with TypeScript and Tailwind CSS, covering everything from initial setup to deployment.</p>' +
       
-      <h2>Prerequisites</h2>
-      <p>Before we begin, make sure you have the following installed:</p>
-      <ul>
-        <li>Node.js 18.17 or later</li>
-        <li>npm, yarn, or pnpm</li>
-        <li>A code editor (VS Code recommended)</li>
-      </ul>
+      '<h2>Prerequisites</h2>' +
+      '<p>Before we begin, make sure you have the following installed:</p>' +
+      '<ul>' +
+        '<li>Node.js 18.17 or later</li>' +
+        '<li>npm, yarn, or pnpm</li>' +
+        '<li>A code editor (VS Code recommended)</li>' +
+      '</ul>' +
       
-      <h2>Creating a New Next.js Project</h2>
-      <p>Let's start by creating a new Next.js project with TypeScript:</p>
-      <pre><code>npx create-next-app@latest my-nextjs-app --typescript --tailwind --eslint</code></pre>
+      '<h2>Creating a New Next.js Project</h2>' +
+      '<p>Let\'s start by creating a new Next.js project with TypeScript:</p>' +
+      '<pre><code>npx create-next-app@latest my-nextjs-app --typescript --tailwind --eslint</code></pre>' +
       
-      <h2>Project Structure</h2>
-      <p>Next.js 15 uses the App Router by default, which provides a more intuitive file-based routing system. Here's what your project structure will look like:</p>
-      <pre><code>my-nextjs-app/
-├── app/
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── components/
-├── lib/
-├── public/
-└── package.json</code></pre>
+      '<h2>Project Structure</h2>' +
+      '<p>Next.js 15 uses the App Router by default, which provides a more intuitive file-based routing system. Here\'s what your project structure will look like:</p>' +
+      '<pre><code>my-nextjs-app/\n├── app/\n│   ├── globals.css\n│   ├── layout.tsx\n│   └── page.tsx\n├── components/\n├── lib/\n├── public/\n└── package.json</code></pre>' +
       
-      <h2>Key Features in Next.js 15</h2>
-      <p>Next.js 15 introduces several important features:</p>
-      <ul>
-        <li><strong>Improved Server Components:</strong> Better performance and developer experience</li>
-        <li><strong>Enhanced TypeScript Support:</strong> Better type safety and IntelliSense</li>
-        <li><strong>Optimized Build System:</strong> Faster builds and better tree shaking</li>
-        <li><strong>Advanced Image Optimization:</strong> Better image handling and performance</li>
-      </ul>
+      '<h2>Key Features in Next.js 15</h2>' +
+      '<p>Next.js 15 introduces several important features:</p>' +
+      '<ul>' +
+        '<li><strong>Improved Server Components:</strong> Better performance and developer experience</li>' +
+        '<li><strong>Enhanced TypeScript Support:</strong> Better type safety and IntelliSense</li>' +
+        '<li><strong>Optimized Build System:</strong> Faster builds and better tree shaking</li>' +
+        '<li><strong>Advanced Image Optimization:</strong> Better image handling and performance</li>' +
+      '</ul>' +
       
-      <h2>Configuration</h2>
-      <p>Next.js 15 comes with sensible defaults, but you can customize the configuration in <code>next.config.js</code>:</p>
-      <pre><code>/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-  images: {
-    domains: ['your-domain.com'],
-  },
-}
-
-module.exports = nextConfig</code></pre>
+      '<h2>Configuration</h2>' +
+      '<p>Next.js 15 comes with sensible defaults, but you can customize the configuration in <code>next.config.js</code>:</p>' +
+      '<pre><code>/** @type {import(\'next\').NextConfig} */\nconst nextConfig = {\n  experimental: {\n    appDir: true,\n  },\n  images: {\n    domains: [\'your-domain.com\'],\n  },\n}\n\nmodule.exports = nextConfig</code></pre>' +
       
-      <h2>TypeScript Configuration</h2>
-      <p>TypeScript is configured out of the box, but you can enhance the configuration in <code>tsconfig.json</code>:</p>
-      <pre><code>{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "es6"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
-}</code></pre>
+      '<h2>TypeScript Configuration</h2>' +
+      '<p>TypeScript is configured out of the box, but you can enhance the configuration in <code>tsconfig.json</code>:</p>' +
+      '<pre><code>{\n  "compilerOptions": {\n    "target": "es5",\n    "lib": ["dom", "dom.iterable", "es6"],\n    "allowJs": true,\n    "skipLibCheck": true,\n    "strict": true,\n    "forceConsistentCasingInFileNames": true,\n    "noEmit": true,\n    "esModuleInterop": true,\n    "module": "esnext",\n    "moduleResolution": "node",\n    "resolveJsonModule": true,\n    "isolatedModules": true,\n    "jsx": "preserve",\n    "incremental": true,\n    "plugins": [\n      {\n        "name": "next"\n      }\n    ],\n    "paths": {\n      "@/*": ["./src/*"]\n    }\n  },\n  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],\n  "exclude": ["node_modules"]\n}</code></pre>' +
       
-      <h2>Tailwind CSS Setup</h2>
-      <p>Tailwind CSS is pre-configured and ready to use. You can customize the design system in <code>tailwind.config.js</code>:</p>
-      <pre><code>/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: '#eff6ff',
-          500: '#3b82f6',
-          900: '#1e3a8a',
-        },
-      },
-    },
-  },
-  plugins: [],
-}</code></pre>
+      '<h2>Tailwind CSS Setup</h2>' +
+      '<p>Tailwind CSS is pre-configured and ready to use. You can customize the design system in <code>tailwind.config.js</code>:</p>' +
+      '<pre><code>/** @type {import(\'tailwindcss\').Config} */\nmodule.exports = {\n  content: [\n    \'./pages/**/*.{js,ts,jsx,tsx,mdx}\',\n    \'./components/**/*.{js,ts,jsx,tsx,mdx}\',\n    \'./app/**/*.{js,ts,jsx,tsx,mdx}\',\n  ],\n  theme: {\n    extend: {\n      colors: {\n        primary: {\n          50: \'#eff6ff\',\n          500: \'#3b82f6\',\n          900: \'#1e3a8a\',\n        },\n      },\n    },\n  },\n  plugins: [],\n}</code></pre>' +
       
-      <h2>Building Your First Component</h2>
-      <p>Let's create a simple component to get started:</p>
-      <pre><code>// components/Button.tsx
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  variant?: 'primary' | 'secondary';
-}
-
-export default function Button({ 
-  children, 
-  onClick, 
-  variant = 'primary' 
-}: ButtonProps) {
-  const baseClasses = 'px-4 py-2 rounded-lg font-medium transition-colors';
-  const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-  };
-  
-  return (
-    <button
-      onClick={onClick}
-      className={`${baseClasses} ${variantClasses[variant]}`}
-    >
-      {children}
-    </button>
-  );
-}</code></pre>
+      '<h2>Building Your First Component</h2>' +
+      '<p>Let\'s create a simple component to get started:</p>' +
+      '<pre><code>// components/Button.tsx\ninterface ButtonProps {\n  children: React.ReactNode;\n  onClick?: () => void;\n  variant?: \'primary\' | \'secondary\';\n}\n\nexport default function Button({ \n  children, \n  onClick, \n  variant = \'primary\' \n}: ButtonProps) {\n  const baseClasses = \'px-4 py-2 rounded-lg font-medium transition-colors\';\n  const variantClasses = {\n    primary: \'bg-blue-600 text-white hover:bg-blue-700\',\n    secondary: \'bg-gray-200 text-gray-900 hover:bg-gray-300\',\n  };\n  \n  return (\n    <button\n      onClick={onClick}\n      className={baseClasses + \' \' + variantClasses[variant]}\n    >\n      {children}\n    </button>\n  );\n}</code></pre>' +
       
-      <h2>Using the Component</h2>
-      <p>Now you can use your component in any page:</p>
-      <pre><code>// app/page.tsx
-import Button from '@/components/Button';
-
-export default function HomePage() {
-  return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">
-          Welcome to Next.js 15
-        </h1>
-        <Button onClick={() => alert('Hello!')}>
-          Get Started
-        </Button>
-      </div>
-    </div>
-  );
-}</code></pre>
+      '<h2>Using the Component</h2>' +
+      '<p>Now you can use your component in any page:</p>' +
+      '<pre><code>// app/page.tsx\nimport Button from \'@/components/Button\';\n\nexport default function HomePage() {\n  return (\n    <div className="min-h-screen bg-gray-50 flex items-center justify-center">\n      <div className="text-center">\n        <h1 className="text-4xl font-bold text-gray-900 mb-8">\n          Welcome to Next.js 15\n        </h1>\n        <Button onClick={() => alert(\'Hello!\')}>\n          Get Started\n        </Button>\n      </div>\n    </div>\n  );\n}</code></pre>' +
       
-      <h2>Deployment</h2>
-      <p>Deploying your Next.js 15 application is straightforward:</p>
-      <ol>
-        <li>Build your application: <code>npm run build</code></li>
-        <li>Start the production server: <code>npm start</code></li>
-        <li>Deploy to Vercel: <code>npx vercel</code></li>
-      </ol>
+      '<h2>Deployment</h2>' +
+      '<p>Deploying your Next.js 15 application is straightforward:</p>' +
+      '<ol>' +
+        '<li>Build your application: <code>npm run build</code></li>' +
+        '<li>Start the production server: <code>npm start</code></li>' +
+        '<li>Deploy to Vercel: <code>npx vercel</code></li>' +
+      '</ol>' +
       
-      <h2>Conclusion</h2>
-      <p>Next.js 15 with TypeScript and Tailwind CSS provides a powerful foundation for building modern web applications. The combination of server components, type safety, and utility-first CSS makes development faster and more enjoyable.</p>
+      '<h2>Conclusion</h2>' +
+      '<p>Next.js 15 with TypeScript and Tailwind CSS provides a powerful foundation for building modern web applications. The combination of server components, type safety, and utility-first CSS makes development faster and more enjoyable.</p>' +
       
-      <p>Start building your next project with these tools and experience the difference they make in your development workflow!</p>
-    `,
+      '<p>Start building your next project with these tools and experience the difference they make in your development workflow!</p>',
     slug: 'getting-started-nextjs-15-typescript',
     date: '2024-01-15T10:00:00Z',
     modified: '2024-01-15T10:00:00Z',

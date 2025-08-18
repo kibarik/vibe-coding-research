@@ -12,14 +12,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['@next/font'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
@@ -27,7 +19,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   generateEtags: false,
-  swcMinify: true,
+
   reactStrictMode: true,
   // Bundle analyzer for performance monitoring
   webpack: (config, { dev, isServer }) => {
