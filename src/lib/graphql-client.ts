@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
 
 const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_URL || 'https://your-wordpress-site.com/graphql',
+  uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_URL || 'https://blog-admin.aiworkplace.ru/graphql',
 })
 
 export const client = new ApolloClient({
