@@ -1,8 +1,8 @@
 ---
+description: Instructions how to work with git commits
 alwaysApply: false
 ---
 Use the Conventional Commit Messages specification to generate commit messages
-
 The commit message should be structured as follows:
 
 
