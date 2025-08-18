@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client'
 import { client } from '@/lib/graphql-client'
 import { useEffect } from 'react'
 import { initializePerformanceMonitoring } from '@/hooks/usePerformance'
+import { ThemeProvider } from '@/lib/theme'
 
 interface ProvidersProps {
   children: React.ReactNode
@@ -15,5 +16,9 @@ export function Providers({ children }: ProvidersProps) {
     initializePerformanceMonitoring()
   }, [])
 
-  return <ApolloProvider client={client}>{children}</ApolloProvider>
+  return (
+    <ThemeProvider>
+      <ApolloProvider client={client}>{children}</ApolloProvider>
+    </ThemeProvider>
+  )
 }
