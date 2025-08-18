@@ -45,6 +45,8 @@ export function CategoryNavigation({
     return queryString ? `${pathname}?${queryString}` : pathname
   }
 
+
+
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-4">
@@ -101,19 +103,4 @@ export function CategoryNavigation({
       </div>
     </div>
   )
-}
-
-// Add custom CSS for hiding scrollbar
-const style = document.createElement('style')
-style.textContent = `
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-`
-if (typeof document !== 'undefined') {
-  document.head.appendChild(style)
 }

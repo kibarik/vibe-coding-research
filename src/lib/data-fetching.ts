@@ -9,6 +9,7 @@ import {
   GET_POSTS_BY_CATEGORY,
   SEARCH_POSTS,
 } from './graphql-queries'
+import { mockPosts, mockCategories, mockPageInfo } from './mock-data'
 
 // Types for GraphQL responses
 export interface Post {
@@ -167,7 +168,14 @@ export async function getPosts(first: number = 10, after?: string): Promise<Post
     return data
   } catch (error) {
     console.error('Error fetching posts:', error)
-    throw new Error('Failed to fetch posts')
+    // Fallback to mock data when GraphQL is not available
+    console.log('Using mock data for posts')
+    return {
+      posts: {
+        pageInfo: mockPageInfo,
+        nodes: mockPosts.slice(0, first)
+      }
+    }
   }
 }
 
@@ -222,7 +230,13 @@ export async function getCategories(): Promise<CategoriesResponse> {
     return data
   } catch (error) {
     console.error('Error fetching categories:', error)
-    throw new Error('Failed to fetch categories')
+    // Fallback to mock data when GraphQL is not available
+    console.log('Using mock data for categories')
+    return {
+      categories: {
+        nodes: mockCategories
+      }
+    }
   }
 }
 
@@ -253,7 +267,17 @@ export async function getPostsByCategory(
     return data
   } catch (error) {
     console.error('Error fetching posts by category:', error)
-    throw new Error(`Failed to fetch posts for category: ${categorySlug}`)
+    // Fallback to mock data when GraphQL is not available
+    console.log('Using mock data for posts by category')
+    const filteredPosts = mockPosts.filter(post => 
+      post.categories.nodes.some(cat => cat.slug === categorySlug)
+    )
+    return {
+      posts: {
+        pageInfo: mockPageInfo,
+        nodes: filteredPosts.slice(0, first)
+      }
+    }
   }
 }
 
