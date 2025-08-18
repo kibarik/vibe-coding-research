@@ -1,5 +1,6 @@
 // src/app/page.tsx
 import { GraphQLTest } from '@/components/GraphQLTest'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -11,12 +12,12 @@ export default function Home() {
               Vibe Coding Research
             </h1>
             <nav className="space-x-6">
-              <a href="#" className="text-gray-600 hover:text-gray-900">
+              <Link href="/" className="text-gray-600 hover:text-gray-900">
                 Home
-              </a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">
+              </Link>
+              <Link href="/blog" className="text-gray-600 hover:text-gray-900">
                 Blog
-              </a>
+              </Link>
               <a href="#" className="text-gray-600 hover:text-gray-900">
                 About
               </a>
@@ -30,9 +31,15 @@ export default function Home() {
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">
             Welcome to Our Blog
           </h2>
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-6">
             A modern blog built with Next.js and WPGraphQL integration.
           </p>
+          <Link
+            href="/blog"
+            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            View All Posts
+          </Link>
         </div>
 
         <GraphQLTest />

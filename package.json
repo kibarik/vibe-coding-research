@@ -9,10 +9,12 @@
     "lint": "next lint",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "setup-hooks": "chmod +x .git/hooks/pre-push"
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
+    "@tailwindcss/typography": "^0.5.16",
     "graphql": "^16.11.0",
     "next": "15.4.6",
     "react": "19.1.0",
