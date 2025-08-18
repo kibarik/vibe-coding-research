@@ -125,6 +125,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Skip to main content link for screen readers */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-lg z-50"
+        >
+          Skip to main content
+        </a>
+        
+        {/* ARIA live region for announcements */}
+        <div
+          id="aria-live-region"
+          className="sr-only"
+          aria-live="polite"
+          aria-atomic="true"
+        />
+        
         <Providers>{children}</Providers>
       </body>
     </html>
