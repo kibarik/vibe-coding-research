@@ -189,7 +189,18 @@ export async function getPostBySlug(slug: string): Promise<PostResponse> {
     return data
   } catch (error) {
     console.error('Error fetching post:', error)
-    throw new Error(`Failed to fetch post: ${slug}`)
+    // Fallback to mock data when GraphQL is not available
+    console.log('Using mock data for post')
+    const mockPost = mockPosts.find(post => post.slug === slug)
+    if (!mockPost) {
+      throw new Error(`Post not found: ${slug}`)
+    }
+    return {
+      post: {
+        ...mockPost,
+        content: mockPost.content || mockPost.excerpt // Add content field for mock posts
+      }
+    }
   }
 }
 
