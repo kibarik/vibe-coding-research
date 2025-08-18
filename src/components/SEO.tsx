@@ -249,3 +249,61 @@ export function BlogListingSEO({ page, category, searchQuery }: BlogListingSEOPr
     />
   )
 }
+
+/**
+ * SEO component for category pages
+ */
+interface CategorySEOProps {
+  category: {
+    name: string
+    slug: string
+    description: string
+  }
+}
+
+export function CategorySEO({ category }: CategorySEOProps) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://vibecodingresearch.com'
+  const canonical = `/blog/category/${category.slug}`
+  const title = `${category.name} Articles - Vibe Coding Research`
+  const description = category.description || `Browse all ${category.name} articles and insights from Vibe Coding Research.`
+  
+  const openGraph = {
+    title,
+    description,
+    type: 'website',
+    url: `${siteUrl}${canonical}`,
+    siteName: 'Vibe Coding Research',
+    locale: 'en_US'
+  }
+  
+  const twitter = {
+    card: 'summary_large_image',
+    site: '@vibecodingresearch',
+    title,
+    description
+  }
+  
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    description,
+    url: `${siteUrl}${canonical}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      name: `${category.name} Articles`,
+      description: `Articles in the ${category.name} category`
+    }
+  }
+  
+  return (
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      openGraph={openGraph}
+      twitter={twitter}
+      structuredData={structuredData}
+    />
+  )
+}

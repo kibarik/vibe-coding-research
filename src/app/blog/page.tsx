@@ -1,23 +1,39 @@
 // src/app/blog/page.tsx
-import { getPosts } from '@/lib/data-fetching'
+import { getPosts, getCategories, getPostsByCategory } from '@/lib/data-fetching'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { DynamicSearchBar } from '@/components/DynamicImport'
 import { ArticleGridSkeleton, SearchBarSkeleton } from '@/components/LoadingSkeleton'
 import { BlogListingSEO } from '@/components/SEO'
+import { CategoryNavigation } from '@/components/CategoryNavigation'
 
 // Enable static generation with ISR
 export const revalidate = 3600 // Revalidate every hour
 
-export default async function BlogPage() {
+interface BlogPageProps {
+  searchParams: {
+    category?: string
+  }
+}
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
   try {
-    const { posts } = await getPosts(12)
+    const { category } = searchParams
+    
+    // Fetch categories and posts
+    const [categoriesResponse, postsResponse] = await Promise.all([
+      getCategories(),
+      category ? getPostsByCategory(category, 12) : getPosts(12)
+    ])
+    
+    const { categories } = categoriesResponse
+    const { posts } = postsResponse
     
     return (
       <>
         {/* SEO Component */}
-        <BlogListingSEO />
+        <BlogListingSEO category={category} />
         
         <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -30,6 +46,12 @@ export default async function BlogPage() {
               Latest articles and insights from our team on coding, technology, and development best practices.
             </p>
           </div>
+
+          {/* Category Navigation */}
+          <CategoryNavigation 
+            categories={categories.nodes}
+            selectedCategory={category}
+          />
 
           {/* Search and Filters Section */}
           <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -48,6 +70,7 @@ export default async function BlogPage() {
               {posts.nodes.length > 0 ? (
                 <span>
                   {posts.nodes.length} article{posts.nodes.length !== 1 ? 's' : ''} available
+                  {category && ` in ${categories.nodes.find(cat => cat.slug === category)?.name || category}`}
                 </span>
               ) : (
                 <span>No articles found</span>
