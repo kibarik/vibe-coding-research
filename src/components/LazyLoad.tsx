@@ -19,7 +19,7 @@ export default function LazyLoad({
   fallback = <div className="animate-pulse bg-gray-200 h-32 rounded" />,
   className = ''
 }: LazyLoadProps) {
-  const [isVisible, setIsVisible] = useState(false)
+
   const [isLoaded, setIsLoaded] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -74,7 +74,6 @@ export function LazyImage({
   width,
   height,
   className = '',
-  placeholder
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)

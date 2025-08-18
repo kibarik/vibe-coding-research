@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { DynamicSearchBar } from '@/components/DynamicImport'
-import { ArticleGridSkeleton, SearchBarSkeleton } from '@/components/LoadingSkeleton'
+import { SearchBarSkeleton } from '@/components/LoadingSkeleton'
 import { BlogListingSEO } from '@/components/SEO'
 import { CategoryNavigation } from '@/components/CategoryNavigation'
 
@@ -194,7 +194,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                   </svg>
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No posts found</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    We couldn't find any articles matching your criteria. Try adjusting your search or browse our latest posts.
+                    We couldn&apos;t find any articles matching your criteria. Try adjusting your search or browse our latest posts.
                   </p>
                   <Link
                     href="/blog"
@@ -237,7 +237,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             Error Loading Posts
           </h1>
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            We're having trouble loading the blog posts. Please check your connection and try again.
+            We&apos;re having trouble loading the blog posts. Please check your connection and try again.
           </p>
           <button
             onClick={() => window.location.reload()}

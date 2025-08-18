@@ -270,7 +270,7 @@ export default function SearchAutocomplete({
                     className="block p-3 text-sm text-blue-600 hover:bg-blue-50 transition-colors"
                     onClick={() => setShowSuggestions(false)}
                   >
-                    View all results for "{query}"
+                    View all results for &quot;{query}&quot;
                   </Link>
                 </div>
               )}

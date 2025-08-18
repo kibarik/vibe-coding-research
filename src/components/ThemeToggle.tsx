@@ -116,7 +116,7 @@ export function ThemeToggle() {
         <div 
           id="theme-menu"
           className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50"
-          role="menu"
+          role="listbox"
           aria-label="Theme options"
         >
           <div className="py-1">
@@ -133,8 +133,8 @@ export function ThemeToggle() {
                     ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
                     : 'text-gray-700 dark:text-gray-300'
                 }`}
-                role="menuitem"
-                aria-checked={theme === option.value}
+                role="option"
+                aria-selected={theme === option.value}
                 tabIndex={-1}
               >
                 <span className="mr-3" aria-hidden="true">{option.icon}</span>

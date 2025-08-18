@@ -4,7 +4,7 @@
  * Debounce function to limit the rate at which a function can fire
  * Useful for optimizing search inputs, scroll handlers, and resize events
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number,
   immediate = false
@@ -30,7 +30,7 @@ export function debounce<T extends (...args: any[]) => any>(
  * Throttle function to ensure a function is called at most once in a specified time period
  * Useful for scroll events, mouse move events, and other frequent events
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {

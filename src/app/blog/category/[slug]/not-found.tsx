@@ -12,7 +12,7 @@ export default function CategoryNotFound() {
           Category Not Found
         </h1>
         <p className="text-gray-600 mb-6">
-          The category you're looking for doesn't exist or has been moved. Check out our other categories or browse all articles.
+          The category you&apos;re looking for doesn&apos;t exist or has been moved. Check out our other categories or browse all articles.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link

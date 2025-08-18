@@ -2,7 +2,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 interface PaginationProps {
   currentPage: number
@@ -19,7 +19,7 @@ export default function Pagination({
   postsPerPage,
   baseUrl = '/blog'
 }: PaginationProps) {
-  const pathname = usePathname()
+
   const searchParams = useSearchParams()
 
   const createPageUrl = (page: number) => {

@@ -4,9 +4,9 @@
 import { Suspense, lazy, ComponentType } from 'react'
 
 interface DynamicImportProps {
-  component: () => Promise<{ default: ComponentType<any> }>
+  component: () => Promise<{ default: ComponentType<Record<string, unknown>> }>
   fallback?: React.ReactNode
-  props?: Record<string, any>
+  props?: Record<string, unknown>
 }
 
 export default function DynamicImport({
@@ -27,7 +27,7 @@ export default function DynamicImport({
  * Preload a component for better performance
  */
 export function preloadComponent(
-  component: () => Promise<{ default: ComponentType<any> }>
+  component: () => Promise<{ default: ComponentType<Record<string, unknown>> }>
 ): void {
   // Start loading the component in the background
   component()

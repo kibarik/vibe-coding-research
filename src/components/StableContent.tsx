@@ -98,7 +98,6 @@ export function StableImage({
   alt,
   aspectRatio = '16/9',
   className = '',
-  placeholder
 }: StableImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)

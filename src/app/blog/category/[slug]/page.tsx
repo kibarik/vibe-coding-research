@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { DynamicSearchBar } from '@/components/DynamicImport'
-import { ArticleGridSkeleton, SearchBarSkeleton } from '@/components/LoadingSkeleton'
+import { SearchBarSkeleton } from '@/components/LoadingSkeleton'
 import { CategorySEO } from '@/components/SEO'
 
 // Enable static generation with ISR
@@ -223,7 +223,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   </svg>
                   <h3 className="text-lg font-medium text-gray-900 mb-2">No posts found</h3>
                   <p className="text-gray-600 mb-6">
-                    We couldn't find any articles in the "{category.name}" category. Try browsing other categories or search for different topics.
+                    We couldn&apos;t find any articles in the &quot;{category.name}&quot; category. Try browsing other categories or search for different topics.
                   </p>
                   <Link
                     href="/blog"

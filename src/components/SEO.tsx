@@ -1,6 +1,6 @@
 // src/components/SEO.tsx
 import Head from 'next/head'
-import StructuredData from './StructuredData'
+
 
 interface SEOProps {
   title: string
@@ -38,7 +38,7 @@ interface SEOProps {
     type?: string
     sizes?: string
   }>
-  structuredData?: any
+  structuredData?: Record<string, unknown>
   noindex?: boolean
   nofollow?: boolean
 }
@@ -138,8 +138,8 @@ export default function SEO({
  * SEO component for blog posts
  */
 interface BlogPostSEOProps {
-  post: any
-  structuredData?: any
+  post: Record<string, unknown>
+  structuredData?: Record<string, unknown>
 }
 
 export function BlogPostSEO({ post, structuredData }: BlogPostSEOProps) {
@@ -175,9 +175,9 @@ export function BlogPostSEO({ post, structuredData }: BlogPostSEOProps) {
     { name: 'article:modified_time', content: post.modified },
     { name: 'article:author', content: post.author?.node?.name || 'Vibe Coding Research' },
     { name: 'article:section', content: post.categories.nodes[0]?.name },
-    { name: 'article:tag', content: post.tags.nodes.map((tag: any) => tag.name).join(', ') },
+    { name: 'article:tag', content: post.tags.nodes.map((tag: Record<string, unknown>) => tag.name).join(', ') },
     { name: 'author', content: post.author?.node?.name || 'Vibe Coding Research' },
-    { name: 'keywords', content: [...post.categories.nodes.map((cat: any) => cat.name), ...post.tags.nodes.map((tag: any) => tag.name)].join(', ') }
+    { name: 'keywords', content: [...post.categories.nodes.map((cat: Record<string, unknown>) => cat.name), ...post.tags.nodes.map((tag: Record<string, unknown>) => tag.name)].join(', ') }
   ]
   
   return (

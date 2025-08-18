@@ -3,18 +3,18 @@ import { Post } from '@/lib/data-fetching'
 
 interface StructuredDataProps {
   type: 'article' | 'website' | 'organization'
-  data: any
+  data: Post | Record<string, unknown>
 }
 
 export default function StructuredData({ type, data }: StructuredDataProps) {
   const generateStructuredData = () => {
     switch (type) {
       case 'article':
-        return generateArticleStructuredData(data)
+        return generateArticleStructuredData(data as Post)
       case 'website':
-        return generateWebsiteStructuredData(data)
+        return generateWebsiteStructuredData()
       case 'organization':
-        return generateOrganizationStructuredData(data)
+        return generateOrganizationStructuredData()
       default:
         return {}
     }
@@ -80,7 +80,7 @@ function generateArticleStructuredData(post: Post) {
   }
 }
 
-function generateWebsiteStructuredData(data: any) {
+function generateWebsiteStructuredData() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -106,7 +106,7 @@ function generateWebsiteStructuredData(data: any) {
   }
 }
 
-function generateOrganizationStructuredData(data: any) {
+function generateOrganizationStructuredData() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",

@@ -80,8 +80,8 @@ export function usePerformance() {
       let clsValue = 0
       const entries = list.getEntries()
       entries.forEach((entry) => {
-        if (entry.entryType === 'layout-shift' && !(entry as any).hadRecentInput) {
-          clsValue += (entry as any).value
+        if (entry.entryType === 'layout-shift' && !(entry as PerformanceEntry & { hadRecentInput?: boolean }).hadRecentInput) {
+          clsValue += (entry as PerformanceEntry & { value: number }).value
         }
       })
       metricsRef.current.cls = clsValue
@@ -137,7 +137,7 @@ export function usePerformance() {
     const metrics = getMetrics()
     
     // Send to analytics service (replace with your analytics)
-    if (typeof window !== 'undefined' && window.gtag) {
+    if (typeof window !== 'undefined' && (window as Window & { gtag?: unknown }).gtag) {
       window.gtag('event', 'core_web_vitals', {
         event_category: 'Web Vitals',
         event_label: window.location.pathname,
@@ -179,7 +179,7 @@ export function initializePerformanceMonitoring() {
   // Monitor memory usage
   if ('memory' in performance) {
     setInterval(() => {
-      const memory = (performance as any).memory
+      const memory = (performance as Performance & { memory?: { usedJSHeapSize: number; jsHeapSizeLimit: number } }).memory
       if (memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
         console.warn('High memory usage detected')
       }

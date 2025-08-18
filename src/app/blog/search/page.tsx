@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { DynamicSearchBar } from '@/components/DynamicImport'
-import { ArticleGridSkeleton, SearchBarSkeleton } from '@/components/LoadingSkeleton'
+import { SearchBarSkeleton } from '@/components/LoadingSkeleton'
 import { BlogListingSEO } from '@/components/SEO'
 
 // Enable static generation with ISR
@@ -77,7 +77,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                 Search Results
               </h1>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Results for "{searchQuery}"
+                Results for &quot;{searchQuery}&quot;
               </p>
             </div>
 
@@ -100,10 +100,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               <div className="text-sm text-gray-600">
                 {posts.nodes.length > 0 ? (
                   <span>
-                    Found {posts.nodes.length} article{posts.nodes.length !== 1 ? 's' : ''} for "{searchQuery}"
+                    Found {posts.nodes.length} article{posts.nodes.length !== 1 ? 's' : ''} for &quot;{searchQuery}&quot;
                   </span>
                 ) : (
-                  <span>No articles found for "{searchQuery}"</span>
+                  <span>No articles found for &quot;{searchQuery}&quot;</span>
                 )}
               </div>
             </div>
@@ -220,7 +220,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                   </svg>
                   <h3 className="text-lg font-medium text-gray-900 mb-2">No results found</h3>
                   <p className="text-gray-600 mb-6">
-                    We couldn't find any articles matching "{searchQuery}". Try different keywords or browse our latest posts.
+                    We couldn&apos;t find any articles matching &quot;{searchQuery}&quot;. Try different keywords or browse our latest posts.
                   </p>
                   <Link
                     href="/blog"
@@ -259,7 +259,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             Search Error
           </h1>
           <p className="text-gray-600 mb-6">
-            We're having trouble processing your search. Please try again.
+            We&apos;re having trouble processing your search. Please try again.
           </p>
           <Link
             href="/blog"
