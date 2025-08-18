@@ -1,33 +1,49 @@
 // src/components/SearchBar.tsx
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { debounce } from '@/lib/performance'
 
 interface SearchBarProps {
-  onSearch: (query: string) => void
+  onSearch?: (query: string) => void
   placeholder?: string
   className?: string
   debounceMs?: number
+  defaultValue?: string
+  navigateToSearch?: boolean
 }
 
 export default function SearchBar({
   onSearch,
   placeholder = 'Search articles...',
   className = '',
-  debounceMs = 300
+  debounceMs = 300,
+  defaultValue = '',
+  navigateToSearch = true
 }: SearchBarProps) {
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(defaultValue)
   const [isSearching, setIsSearching] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
+
+  // Update query when defaultValue changes
+  useEffect(() => {
+    setQuery(defaultValue)
+  }, [defaultValue])
 
   // Debounced search function to optimize performance
   const debouncedSearch = useCallback(
     debounce((searchQuery: string) => {
       setIsSearching(false)
-      onSearch(searchQuery)
+      if (onSearch) {
+        onSearch(searchQuery)
+      }
+      if (navigateToSearch && searchQuery.trim()) {
+        router.push(`/blog/search?q=${encodeURIComponent(searchQuery.trim())}`)
+      }
     }, debounceMs),
-    [onSearch, debounceMs]
+    [onSearch, debounceMs, navigateToSearch, router]
   )
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,17 +58,28 @@ export default function SearchBar({
     if (inputRef.current) {
       inputRef.current.blur()
     }
-    onSearch(query)
-  }, [query, onSearch])
+    const trimmedQuery = query.trim()
+    if (onSearch) {
+      onSearch(trimmedQuery)
+    }
+    if (navigateToSearch && trimmedQuery) {
+      router.push(`/blog/search?q=${encodeURIComponent(trimmedQuery)}`)
+    }
+  }, [query, onSearch, navigateToSearch, router])
 
   const handleClear = useCallback(() => {
     setQuery('')
     setIsSearching(false)
-    onSearch('')
+    if (onSearch) {
+      onSearch('')
+    }
+    if (navigateToSearch) {
+      router.push('/blog/search')
+    }
     if (inputRef.current) {
       inputRef.current.focus()
     }
-  }, [onSearch])
+  }, [onSearch, navigateToSearch, router])
 
   return (
     <form onSubmit={handleSubmit} className={`relative ${className}`}>

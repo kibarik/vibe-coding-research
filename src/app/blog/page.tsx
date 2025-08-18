@@ -37,11 +37,8 @@ export default async function BlogPage() {
             <div data-preload-search className="max-w-md">
               <Suspense fallback={<SearchBarSkeleton />}>
                 <DynamicSearchBar
-                  onSearch={(query) => {
-                    // Search functionality will be implemented in Task 10
-                    console.log('Search query:', query)
-                  }}
                   placeholder="Search articles..."
+                  navigateToSearch={true}
                 />
               </Suspense>
             </div>
