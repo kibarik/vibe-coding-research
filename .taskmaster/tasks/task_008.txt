@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: Single Article Page Structure
+# Status: pending
+# Dependencies: 2, 3, 4, 5, 6
+# Priority: high
+# Description: Create individual article pages with hero block and content layout inspired by Writer.com
+# Details:
+Implement article detail page with SSG, create hero section with optimized cover image, render article content with proper typography, add meta information display, and implement sticky table of contents sidebar.
+
+# Test Strategy:
+Test article page renders correctly, verify hero section displays properly, check content formatting, ensure responsive design, and achieve optimal Core Web Vitals scores

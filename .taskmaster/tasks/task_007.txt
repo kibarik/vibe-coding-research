@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: Blog Homepage with Article Grid
+# Status: pending
+# Dependencies: 2, 3, 4, 5, 6
+# Priority: high
+# Description: Create the main blog homepage with article grid layout inspired by OpenAI News
+# Details:
+Implement responsive article grid using SSG, fetch articles via WPGraphQL, create article cards with optimized images, add basic pagination, implement loading states, and ensure proper Core Web Vitals scores.
+
+# Test Strategy:
+Verify articles display correctly, test responsive design, check loading states, ensure proper error handling, and achieve Lighthouse score > 90

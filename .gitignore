@@ -1,43 +1,41 @@
-.taskmaster/docs/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Taskmaster generated files
-.taskmaster/state.json
-.taskmaster/reports/
-.cursor/mcp.json
-.specstory/
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Logs
-logs
-*.log
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-dev-debug.log
-# Dependency directories
-node_modules/
-venv/
-# Environment variables
-.env
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-# OS specific
-.DS_Store
+.pnpm-debug.log*
 
-# Task files
-.taskmaster/tasks/
-# tasks.json
-tasks/
+# env files (can opt-in for committing if needed)
+.env*
 
-# Security scanning
-results.sarif
-.gitleaks-report.json
-gitleaks-report.json
-trufflehog-report.json
-.secrets-baseline
-*.secrets
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

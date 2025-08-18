@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: Core Web Vitals Optimization - FID/INP
+# Status: pending
+# Dependencies: 1, 3
+# Priority: high
+# Description: Optimize First Input Delay and Interaction to Next Paint for responsive user interactions
+# Details:
+Minimize JavaScript execution time, implement code splitting, use lazy loading for non-critical resources, optimize event handlers, and ensure FID < 100ms and INP < 200ms.
+
+# Test Strategy:
+Achieve FID < 100ms and INP < 200ms, test with Lighthouse, verify responsive interactions, and ensure smooth user experience

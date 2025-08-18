@@ -1,0 +1,11 @@
+# Task ID: 4
+# Title: Core Web Vitals Optimization - LCP
+# Status: pending
+# Dependencies: 1, 3
+# Priority: high
+# Description: Optimize Largest Contentful Paint (LCP) through SSG and image optimization
+# Details:
+Implement SSG for fast initial page loads, optimize hero images and large content elements, use Next.js Image component with proper sizing, implement priority loading for above-the-fold images, and ensure LCP score > 2.5s.
+
+# Test Strategy:
+Achieve LCP score < 2.5s, test with Lighthouse, verify image optimization, and ensure fast loading on 3G connections

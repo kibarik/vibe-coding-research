@@ -1,0 +1,11 @@
+# Task ID: 14
+# Title: Dark/Light Mode Toggle
+# Status: pending
+# Dependencies: 1
+# Priority: low
+# Description: Implement theme switching with system preference detection
+# Details:
+Create theme context and provider, implement dark/light mode toggle, add system preference detection, create theme-aware components, persist user preference, and ensure no CLS during theme switching.
+
+# Test Strategy:
+Test theme switching works correctly, verify system preference detection, check theme persistence, ensure all components adapt to theme changes, and verify no layout shifts

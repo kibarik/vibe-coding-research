@@ -1,0 +1,11 @@
+# Task ID: 12
+# Title: Sticky Table of Contents
+# Status: pending
+# Dependencies: 8
+# Priority: medium
+# Description: Implement sticky table of contents sidebar for article pages
+# Details:
+Create table of contents component that extracts headings from article content, implement sticky positioning, add clickable navigation, ensure proper scroll behavior, and optimize for CLS.
+
+# Test Strategy:
+Test table of contents displays correctly, verify sticky positioning works, check click navigation functions properly, test on different screen sizes, and ensure no layout shifts

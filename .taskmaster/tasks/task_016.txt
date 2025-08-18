@@ -1,0 +1,11 @@
+# Task ID: 16
+# Title: Related Articles Section
+# Status: pending
+# Dependencies: 2, 8
+# Priority: medium
+# Description: Implement related articles suggestions at the bottom of article pages
+# Details:
+Create related articles algorithm based on categories and tags using WPGraphQL, implement related articles component, add proper linking, ensure good user experience, and optimize for performance.
+
+# Test Strategy:
+Test related articles display correctly, verify relevance of suggestions, check proper linking works, ensure good performance, and test with various content types

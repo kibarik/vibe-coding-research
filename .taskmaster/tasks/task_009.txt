@@ -1,0 +1,11 @@
+# Task ID: 9
+# Title: SEO Meta Tags and Structured Data
+# Status: pending
+# Dependencies: 7, 8
+# Priority: high
+# Description: Implement dynamic meta tags, Open Graph tags, and JSON-LD structured data
+# Details:
+Add dynamic meta titles and descriptions, implement Open Graph tags for social sharing, create JSON-LD structured data for articles, set up canonical URLs, and ensure proper SEO optimization.
+
+# Test Strategy:
+Verify meta tags are generated correctly, test Open Graph previews, validate JSON-LD with Google's testing tool, check canonical URLs, and ensure SEO score > 95

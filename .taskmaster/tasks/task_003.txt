@@ -1,0 +1,11 @@
+# Task ID: 3
+# Title: SSG Strategy Implementation
+# Status: pending
+# Dependencies: 1, 2
+# Priority: high
+# Description: Implement Static Site Generation (SSG) with Incremental Static Regeneration (ISR) for optimal performance
+# Details:
+Configure getStaticProps and getStaticPaths for blog posts and pages, implement ISR for dynamic content updates, set up proper revalidation strategies, and ensure optimal build times and performance.
+
+# Test Strategy:
+Verify static generation works correctly, test ISR revalidation, check build performance, and ensure content updates are reflected properly

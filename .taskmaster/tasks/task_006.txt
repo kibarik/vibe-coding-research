@@ -1,0 +1,11 @@
+# Task ID: 6
+# Title: Core Web Vitals Optimization - CLS
+# Status: pending
+# Dependencies: 1, 4
+# Priority: high
+# Description: Optimize Cumulative Layout Shift by preventing layout shifts during page load
+# Details:
+Specify dimensions for all images and fonts, reserve space for dynamic content, avoid inserting content above existing content, and ensure CLS score < 0.1.
+
+# Test Strategy:
+Achieve CLS score < 0.1, test with Lighthouse, verify no layout shifts during loading, and ensure stable visual experience

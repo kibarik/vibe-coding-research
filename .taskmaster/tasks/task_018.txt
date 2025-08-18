@@ -1,0 +1,11 @@
+# Task ID: 18
+# Title: Advanced Performance Optimization
+# Status: pending
+# Dependencies: 7, 8, 13
+# Priority: high
+# Description: Implement advanced caching strategies and performance optimizations
+# Details:
+Implement advanced caching strategies, optimize bundle size, add service worker for offline support, implement code splitting, optimize Core Web Vitals scores, and ensure Lighthouse score > 90.
+
+# Test Strategy:
+Achieve Lighthouse score > 90, verify Core Web Vitals are green, test caching strategies, ensure fast loading times on 3G connections, and optimize for all performance metrics
