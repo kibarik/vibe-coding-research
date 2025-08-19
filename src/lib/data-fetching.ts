@@ -181,15 +181,18 @@ export async function getPosts(first: number = 10, after?: string): Promise<Post
 
 export async function getPostBySlug(slug: string): Promise<PostResponse> {
   try {
+    // Decode URL-encoded slug
+    const decodedSlug = decodeURIComponent(slug)
+    
     const { data } = await client.query({
       query: GET_POST_BY_SLUG,
-      variables: { slug },
+      variables: { slug: decodedSlug },
       fetchPolicy: 'cache-first',
     })
     
     // Ensure we always return a valid structure
     if (!data || !data.post) {
-      throw new Error(`Post not found: ${slug}`)
+      throw new Error(`Post not found: ${decodedSlug}`)
     }
     
     return data
@@ -197,9 +200,10 @@ export async function getPostBySlug(slug: string): Promise<PostResponse> {
     console.error('Error fetching post:', error)
     // Fallback to mock data when GraphQL is not available
     console.log('Using mock data for post')
-    const mockPost = mockPosts.find(post => post.slug === slug)
+    const decodedSlug = decodeURIComponent(slug)
+    const mockPost = mockPosts.find(post => post.slug === decodedSlug)
     if (!mockPost) {
-      throw new Error(`Post not found: ${slug}`)
+      throw new Error(`Post not found: ${decodedSlug}`)
     }
     return {
       post: {

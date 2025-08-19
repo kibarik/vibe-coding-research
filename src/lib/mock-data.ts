@@ -5,6 +5,80 @@ export const mockPosts: Post[] = [
   {
     id: '1',
     databaseId: 1,
+    title: 'Привет, мир!',
+    excerpt: 'Первая статья в блоге о программировании и технологиях.',
+    content: 
+      '<h2>Введение</h2>' +
+      '<p>Добро пожаловать в наш блог о программировании! Здесь мы будем делиться знаниями о современных технологиях, лучших практиках разработки и интересными проектами.</p>' +
+      
+      '<h2>О чем будем писать</h2>' +
+      '<p>В этом блоге мы планируем освещать следующие темы:</p>' +
+      '<ul>' +
+        '<li>Современные фреймворки и библиотеки</li>' +
+        '<li>Лучшие практики разработки</li>' +
+        '<li>Архитектура приложений</li>' +
+        '<li>Производительность и оптимизация</li>' +
+      '</ul>' +
+      
+      '<h2>Технологический стек</h2>' +
+      '<p>Мы будем использовать современные технологии:</p>' +
+      '<ul>' +
+        '<li>Next.js 15</li>' +
+        '<li>TypeScript</li>' +
+        '<li>Tailwind CSS</li>' +
+        '<li>WordPress GraphQL</li>' +
+      '</ul>' +
+      
+      '<h2>Заключение</h2>' +
+      '<p>Следите за обновлениями! Мы будем регулярно публиковать новые статьи с полезной информацией для разработчиков.</p>',
+    slug: 'привет-мир',
+    date: '2024-01-15T10:00:00Z',
+    modified: '2024-01-15T10:00:00Z',
+    featuredImage: {
+      node: {
+        id: 'img1',
+        sourceUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop',
+        altText: 'Привет, мир!',
+        mediaDetails: {
+          width: 800,
+          height: 400
+        }
+      }
+    },
+    author: {
+      node: {
+        id: 'author1',
+        name: 'Команда Vibe Coding Research',
+        slug: 'vibe-coding-research'
+      }
+    },
+    categories: {
+      nodes: [
+        {
+          id: 'cat1',
+          name: 'Общие',
+          slug: 'общие'
+        }
+      ]
+    },
+    tags: {
+      nodes: [
+        {
+          id: 'tag1',
+          name: 'блог',
+          slug: 'блог'
+        },
+        {
+          id: 'tag2',
+          name: 'программирование',
+          slug: 'программирование'
+        }
+      ]
+    }
+  },
+  {
+    id: '2',
+    databaseId: 2,
     title: 'Getting Started with Next.js 15 and TypeScript',
     excerpt: 'Learn how to set up a modern Next.js 15 project with TypeScript, Tailwind CSS, and best practices for optimal performance and developer experience. We\'ll cover everything from initial setup to deployment.',
     content: 
