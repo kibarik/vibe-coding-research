@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.16",
     "critters": "^0.0.23",
     "graphql": "^16.11.0",

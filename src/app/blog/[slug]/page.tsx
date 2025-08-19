@@ -1,11 +1,12 @@
 // src/app/blog/[slug]/page.tsx
-import { getPosts, getPostBySlug, formatDate } from '@/lib/data-fetching'
+import { getPosts, getPostBySlug, getRelatedPosts, formatDate } from '@/lib/data-fetching'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import { BlogPostSEO } from '@/components/SEO'
 import TableOfContents from '@/components/TableOfContents'
 import ReadingProgress from '@/components/ReadingProgress'
+import RelatedArticles from '@/components/RelatedArticles'
+import OptimizedImage from '@/components/OptimizedImage'
 
 // Enable static generation with ISR
 export const revalidate = 3600 // Revalidate every hour
@@ -39,6 +40,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     }
     
     const { post } = postData
+
+    // Get related posts
+    const categoryIds = post.categories.nodes.map(cat => cat.id)
+    const tagIds = post.tags.nodes.map(tag => tag.id)
+    const relatedPostsData = await getRelatedPosts(post.id, categoryIds, tagIds, 3)
 
     // Generate structured data for the post
     const structuredData = {
@@ -109,7 +115,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {/* Featured Image */}
               {post.featuredImage?.node && (
                 <div className="mb-8 aspect-video bg-gray-200 rounded-xl overflow-hidden relative">
-                  <Image
+                  <OptimizedImage
                     src={post.featuredImage.node.sourceUrl}
                     alt={post.featuredImage.node.altText || post.title}
                     fill
@@ -117,6 +123,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1024px"
                     quality={90}
+                    aspectRatio="16/9"
                   />
                 </div>
               )}
@@ -256,6 +263,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
             </div>
           </div>
+
+          {/* Related Articles */}
+          <RelatedArticles 
+            posts={relatedPostsData.posts.nodes} 
+            currentPostSlug={post.slug}
+          />
         </div>
       </>
     )

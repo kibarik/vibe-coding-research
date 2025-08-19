@@ -1,11 +1,11 @@
 // src/app/blog/page.tsx
 import { getPosts, getCategories, getPostsByCategory, formatDate } from '@/lib/data-fetching'
 import Link from 'next/link'
-import Image from 'next/image'
 import { DynamicSearchBar } from '@/components/DynamicImport'
 import { BlogListingSEO } from '@/components/SEO'
 import { CategoryNavigationWrapper } from '@/components/CategoryNavigationWrapper'
 import { ErrorState } from '@/components/ErrorState'
+import OptimizedImage from '@/components/OptimizedImage'
 
 // Enable static generation with ISR
 export const revalidate = 3600 // Revalidate every hour
@@ -89,7 +89,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                     {/* Featured Image */}
                     {post.featuredImage?.node && (
                       <div className="aspect-video bg-gray-200 dark:bg-gray-700 relative w-full overflow-hidden">
-                        <Image
+                        <OptimizedImage
                           src={post.featuredImage.node.sourceUrl}
                           alt={post.featuredImage.node.altText || post.title}
                           fill
@@ -98,6 +98,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           quality={85}
                           placeholder="blur"
+                          aspectRatio="16/9"
                           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                         />
                       </div>

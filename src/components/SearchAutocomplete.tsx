@@ -5,7 +5,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { debounce } from '@/lib/performance'
 import Link from 'next/link'
-import Image from 'next/image'
+import OptimizedImage from './OptimizedImage'
 
 interface SearchSuggestion {
   id: string
@@ -241,12 +241,13 @@ export default function SearchAutocomplete({
                   <div className="flex items-start space-x-3">
                     {suggestion.featuredImage?.node && (
                       <div className="flex-shrink-0 w-12 h-12 bg-gray-200 rounded overflow-hidden">
-                        <Image
+                        <OptimizedImage
                           src={suggestion.featuredImage.node.sourceUrl}
                           alt={suggestion.featuredImage.node.altText || suggestion.title}
                           width={48}
                           height={48}
                           className="object-cover w-full h-full"
+                          aspectRatio="1/1"
                         />
                       </div>
                     )}

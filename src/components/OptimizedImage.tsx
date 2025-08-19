@@ -1,6 +1,7 @@
 // src/components/OptimizedImage.tsx
 import Image from 'next/image'
 import { useState } from 'react'
+import { optimizeImageUrl } from '@/lib/data-fetching'
 
 interface OptimizedImageProps {
   src: string
@@ -73,13 +74,16 @@ export default function OptimizedImage({
     )
   }
 
+  // Optimize the image URL for CDN
+  const optimizedSrc = optimizeImageUrl(src, width, height, quality)
+
   return (
     <div 
       className={`relative ${isLoading ? 'animate-pulse bg-gray-200' : ''} ${className}`}
       style={getAspectRatioStyle()}
     >
       <Image
-        src={src}
+        src={optimizedSrc}
         alt={alt}
         fill={fill}
         width={!fill ? width : undefined}

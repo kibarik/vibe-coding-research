@@ -330,3 +330,60 @@ export const SEARCH_POSTS = gql`
     }
   }
 `
+
+// Query for related posts based on categories and tags
+export const GET_RELATED_POSTS = gql`
+  query GetRelatedPosts($postId: ID!, $categoryIds: [ID!], $tagIds: [ID!], $first: Int = 3) {
+    posts(
+      first: $first
+      where: { 
+        status: PUBLISH,
+        notIn: [$postId],
+        categoryIn: $categoryIds,
+        tagIn: $tagIds
+      }
+    ) {
+      nodes {
+        id
+        databaseId
+        title
+        excerpt
+        slug
+        date
+        modified
+        featuredImage {
+          node {
+            id
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
+          }
+        }
+        author {
+          node {
+            id
+            name
+            slug
+          }
+        }
+        categories {
+          nodes {
+            id
+            name
+            slug
+          }
+        }
+        tags {
+          nodes {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+`

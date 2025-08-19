@@ -8,6 +8,7 @@ import {
   GET_TAGS,
   GET_POSTS_BY_CATEGORY,
   SEARCH_POSTS,
+  GET_RELATED_POSTS,
 } from './graphql-queries'
 import { mockPosts, mockCategories, mockPageInfo } from './mock-data'
 
@@ -337,6 +338,53 @@ export async function searchPosts(
   }
 }
 
+export async function getRelatedPosts(
+  postId: string,
+  categoryIds: string[],
+  tagIds: string[],
+  first: number = 3
+): Promise<PostsResponse> {
+  try {
+    const { data } = await client.query({
+      query: GET_RELATED_POSTS,
+      variables: { postId, categoryIds, tagIds, first },
+      fetchPolicy: 'cache-first',
+    })
+    return data
+  } catch (error) {
+    console.error('Error fetching related posts:', error)
+    // Fallback to mock data when GraphQL is not available
+    console.log('Using mock data for related posts')
+    
+    // Filter mock posts to exclude current post and find related ones
+    const currentPost = mockPosts.find(post => post.id === postId)
+    if (!currentPost) {
+      return { posts: { pageInfo: mockPageInfo, nodes: [] } }
+    }
+    
+    const relatedPosts = mockPosts
+      .filter(post => post.id !== postId)
+      .filter(post => {
+        // Check if post shares categories or tags with current post
+        const hasMatchingCategories = post.categories.nodes.some(cat =>
+          currentPost.categories.nodes.some(currentCat => currentCat.id === cat.id)
+        )
+        const hasMatchingTags = post.tags.nodes.some(tag =>
+          currentPost.tags.nodes.some(currentTag => currentTag.id === tag.id)
+        )
+        return hasMatchingCategories || hasMatchingTags
+      })
+      .slice(0, first)
+    
+    return {
+      posts: {
+        pageInfo: mockPageInfo,
+        nodes: relatedPosts
+      }
+    }
+  }
+}
+
 // Utility function to format date
 export function formatDate(dateString: string): string {
   const date = new Date(dateString)
@@ -361,4 +409,30 @@ export function getExcerpt(content: string, maxLength: number = 150): string {
     return strippedContent
   }
   return strippedContent.substring(0, maxLength).trim() + '...'
+}
+
+// Utility function to optimize image URLs for CDN
+export function optimizeImageUrl(url: string, width?: number, height?: number, quality: number = 85): string {
+  if (!url) return url
+  
+  // If it's already a CDN URL, return as is
+  if (url.includes('cloudinary.com') || url.includes('amazonaws.com')) {
+    return url
+  }
+  
+  // For WordPress URLs, we can add optimization parameters
+  if (url.includes('wordpress.com') || url.includes('wp.com')) {
+    const urlObj = new URL(url)
+    if (width) urlObj.searchParams.set('w', width.toString())
+    if (height) urlObj.searchParams.set('h', height.toString())
+    urlObj.searchParams.set('q', quality.toString())
+    return urlObj.toString()
+  }
+  
+  return url
+}
+
+// Utility function to get responsive image sizes
+export function getResponsiveImageSizes(containerWidth: string = '100vw'): string {
+  return `(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, ${containerWidth}`
 }
