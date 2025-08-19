@@ -195,7 +195,24 @@ export async function getPostBySlug(slug: string): Promise<PostResponse> {
       throw new Error(`Post not found: ${decodedSlug}`)
     }
     
-    return data
+    // Transform WordPress data to match our Post interface
+    const transformedPost: Post = {
+      id: data.post.id,
+      databaseId: parseInt(data.post.databaseId || '1'),
+      title: data.post.title,
+      content: data.post.content,
+      excerpt: data.post.excerpt || data.post.content?.substring(0, 200) + '...' || '',
+      slug: data.post.slug,
+      date: data.post.date || new Date().toISOString(),
+      modified: data.post.modified || data.post.date || new Date().toISOString(),
+      featuredImage: data.post.featuredImage,
+      author: data.post.author,
+      categories: data.post.categories || { nodes: [] },
+      tags: data.post.tags || { nodes: [] },
+      seo: data.post.seo
+    }
+    
+    return { post: transformedPost }
   } catch (error) {
     console.error('Error fetching post:', error)
     // Fallback to mock data when GraphQL is not available

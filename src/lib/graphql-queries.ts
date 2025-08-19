@@ -57,7 +57,7 @@ export const GET_POSTS = gql`
 
 // Query for a single post with full content
 export const GET_POST_BY_SLUG = gql`
-  query GetPostBySlug($slug: ID!) {
+  query GetPostBySlug($slug: String!) {
     post(id: $slug, idType: SLUG) {
       id
       databaseId
