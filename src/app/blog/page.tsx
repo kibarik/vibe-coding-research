@@ -2,9 +2,7 @@
 import { getPosts, getCategories, getPostsByCategory, formatDate } from '@/lib/data-fetching'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Suspense } from 'react'
 import { DynamicSearchBar } from '@/components/DynamicImport'
-import { SearchBarSkeleton } from '@/components/LoadingSkeleton'
 import { BlogListingSEO } from '@/components/SEO'
 import { CategoryNavigationWrapper } from '@/components/CategoryNavigationWrapper'
 import { ErrorState } from '@/components/ErrorState'
@@ -58,11 +56,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           <section className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4" aria-label="Search and filters">
             {/* Search Bar */}
             <div data-preload-search className="max-w-md">
-              <Suspense fallback={<SearchBarSkeleton />}>
-                <DynamicSearchBar
-                  placeholder="Search articles..."
-                />
-              </Suspense>
+              <DynamicSearchBar
+                placeholder="Search articles..."
+              />
             </div>
 
             {/* Results count */}

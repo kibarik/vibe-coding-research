@@ -36,10 +36,43 @@ export function preloadComponent<P extends object = Record<string, unknown>>(
 /**
  * Common dynamic imports for the blog
  */
-export const DynamicSearchBar = lazy(() => import('./SearchBar'))
-export const DynamicSearchAutocomplete = lazy(() => import('./SearchAutocomplete'))
-export const DynamicLazyLoad = lazy(() => import('./LazyLoad'))
-export const DynamicOptimizedImage = lazy(() => import('./OptimizedImage'))
+const SearchBarLazy = lazy(() => import('./SearchBar'))
+const SearchAutocompleteLazy = lazy(() => import('./SearchAutocomplete'))
+const LazyLoadLazy = lazy(() => import('./LazyLoad'))
+const OptimizedImageLazy = lazy(() => import('./OptimizedImage'))
+
+// Wrapped components with Suspense
+export function DynamicSearchBar(props: React.ComponentProps<typeof SearchBarLazy>) {
+  return (
+    <Suspense fallback={<div className="animate-pulse bg-gray-200 h-10 rounded-lg" />}>
+      <SearchBarLazy {...props} />
+    </Suspense>
+  )
+}
+
+export function DynamicSearchAutocomplete(props: React.ComponentProps<typeof SearchAutocompleteLazy>) {
+  return (
+    <Suspense fallback={<div className="animate-pulse bg-gray-200 h-32 rounded" />}>
+      <SearchAutocompleteLazy {...props} />
+    </Suspense>
+  )
+}
+
+export function DynamicLazyLoad(props: React.ComponentProps<typeof LazyLoadLazy>) {
+  return (
+    <Suspense fallback={<div className="animate-pulse bg-gray-200 h-32 rounded" />}>
+      <LazyLoadLazy {...props} />
+    </Suspense>
+  )
+}
+
+export function DynamicOptimizedImage(props: React.ComponentProps<typeof OptimizedImageLazy>) {
+  return (
+    <Suspense fallback={<div className="animate-pulse bg-gray-200 h-32 rounded" />}>
+      <OptimizedImageLazy {...props} />
+    </Suspense>
+  )
+}
 
 // Preload critical components
 if (typeof window !== 'undefined') {
