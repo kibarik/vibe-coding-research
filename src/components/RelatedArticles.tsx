@@ -5,7 +5,7 @@ import OptimizedImage from './OptimizedImage'
 
 interface RelatedArticlesProps {
   posts: Post[]
-  currentPostSlug: string
+  currentPostSlug?: string
 }
 
 export default function RelatedArticles({ posts, currentPostSlug }: RelatedArticlesProps) {

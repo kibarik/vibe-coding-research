@@ -58,6 +58,33 @@ vi.mock('@/lib/data-fetching', () => ({
       }
     }
   }),
+  getRelatedPosts: vi.fn().mockResolvedValue({
+    posts: {
+      nodes: [
+        {
+          id: '2',
+          databaseId: 2,
+          title: 'Related Article 1',
+          excerpt: 'This is a related article',
+          slug: 'related-article-1',
+          date: '2024-01-10T10:00:00Z',
+          modified: '2024-01-10T10:00:00Z',
+          categories: {
+            nodes: [
+              {
+                id: 'cat1',
+                name: 'Общие',
+                slug: 'общие'
+              }
+            ]
+          },
+          tags: {
+            nodes: []
+          }
+        }
+      ]
+    }
+  }),
   formatDate: vi.fn().mockImplementation((date: string) => {
     const d = new Date(date)
     return d.toLocaleDateString('en-US', {
@@ -66,6 +93,8 @@ vi.mock('@/lib/data-fetching', () => ({
       day: 'numeric',
     })
   }),
+  optimizeImageUrl: vi.fn().mockImplementation((url: string) => url),
+  getResponsiveImageSizes: vi.fn().mockReturnValue('(max-width: 768px) 100vw, 50vw'),
 }))
 
 // Mock Next.js navigation
@@ -102,7 +131,9 @@ describe('Blog Detail Page', () => {
     const page = await BlogPostPage({ params: mockParams, searchParams: mockSearchParams })
     render(page)
     
-    expect(screen.getByText('Общие')).toBeInTheDocument()
+    // Use getAllByText since the category appears in multiple places
+    const categoryElements = screen.getAllByText('Общие')
+    expect(categoryElements.length).toBeGreaterThan(0)
   })
 
   it('renders tags', async () => {

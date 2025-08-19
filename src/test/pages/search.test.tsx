@@ -13,7 +13,9 @@ vi.mock('@/lib/data-fetching', () => ({
       month: 'long',
       day: 'numeric'
     })
-  })
+  }),
+  optimizeImageUrl: vi.fn().mockImplementation((url: string) => url),
+  getResponsiveImageSizes: vi.fn().mockReturnValue('(max-width: 768px) 100vw, 50vw'),
 }))
 
 const { searchPosts } = await import('@/lib/data-fetching')
