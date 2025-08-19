@@ -312,11 +312,19 @@ export async function searchPosts(
 
 // Utility function to format date
 export function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  const date = new Date(dateString)
+  
+  // Use UTC to ensure consistent formatting between server and client
+  const year = date.getUTCFullYear()
+  const month = date.getUTCMonth()
+  const day = date.getUTCDate()
+  
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ]
+  
+  return `${monthNames[month]} ${day}, ${year}`
 }
 
 // Utility function to get excerpt

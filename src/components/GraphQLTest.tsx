@@ -1,7 +1,7 @@
 'use client'
 
 // src/components/GraphQLTest.tsx
-import { Post } from '@/lib/data-fetching'
+import { Post, formatDate } from '@/lib/data-fetching'
 import { mockPosts } from '@/lib/mock-data'
 
 export function GraphQLTest() {
@@ -43,7 +43,7 @@ export function GraphQLTest() {
                 )}
                 <span className="mx-2" aria-hidden="true">•</span>
                 <time dateTime={post.date}>
-                  {new Date(post.date).toLocaleDateString()}
+                  {formatDate(post.date)}
                 </time>
               </div>
             </article>
