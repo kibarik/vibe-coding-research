@@ -30,7 +30,6 @@ export default function LazyLoad({
     const observer = createIntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true)
           // Small delay to ensure smooth loading
           setTimeout(() => setIsLoaded(true), 100)
           observer.disconnect()

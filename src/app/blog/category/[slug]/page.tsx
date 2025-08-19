@@ -25,14 +25,12 @@ export async function generateStaticParams() {
 }
 
 interface CategoryPageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   try {
-    const { slug } = params
+    const { slug } = await params
     
     // Get category details and posts
     const [categoriesResponse, postsResponse] = await Promise.all([

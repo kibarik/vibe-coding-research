@@ -4,14 +4,14 @@
  * Debounce function to limit the rate at which a function can fire
  * Useful for optimizing search inputs, scroll handlers, and resize events
  */
-export function debounce<T extends (...args: unknown[]) => unknown>(
-  func: T,
+export function debounce<A extends unknown[], R>(
+  func: (...args: A) => R,
   wait: number,
   immediate = false
-): (...args: Parameters<T>) => void {
+): (...args: A) => void {
   let timeout: NodeJS.Timeout | null = null
   
-  return function executedFunction(...args: Parameters<T>) {
+  return function executedFunction(...args: A) {
     const later = () => {
       timeout = null
       if (!immediate) func(...args)
@@ -30,13 +30,13 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
  * Throttle function to ensure a function is called at most once in a specified time period
  * Useful for scroll events, mouse move events, and other frequent events
  */
-export function throttle<T extends (...args: unknown[]) => unknown>(
-  func: T,
+export function throttle<A extends unknown[], R>(
+  func: (...args: A) => R,
   limit: number
-): (...args: Parameters<T>) => void {
+): (...args: A) => void {
   let inThrottle: boolean
   
-  return function executedFunction(...args: Parameters<T>) {
+  return function executedFunction(...args: A) {
     if (!inThrottle) {
       func(...args)
       inThrottle = true

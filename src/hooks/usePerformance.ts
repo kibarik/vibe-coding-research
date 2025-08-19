@@ -137,16 +137,19 @@ export function usePerformance() {
     const metrics = getMetrics()
     
     // Send to analytics service (replace with your analytics)
-    if (typeof window !== 'undefined' && (window as Window & { gtag?: unknown }).gtag) {
-      window.gtag('event', 'core_web_vitals', {
-        event_category: 'Web Vitals',
-        event_label: window.location.pathname,
-        value: Math.round(metrics.lcp || 0),
-        custom_parameter_1: metrics.fid,
-        custom_parameter_2: metrics.inp,
-        custom_parameter_3: metrics.cls,
-        custom_parameter_4: metrics.ttfb,
-      })
+    if (typeof window !== 'undefined') {
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag
+      if (gtag) {
+        gtag('event', 'core_web_vitals', {
+          event_category: 'Web Vitals',
+          event_label: window.location.pathname,
+          value: Math.round(metrics.lcp || 0),
+          custom_parameter_1: metrics.fid,
+          custom_parameter_2: metrics.inp,
+          custom_parameter_3: metrics.cls,
+          custom_parameter_4: metrics.ttfb,
+        })
+      }
     }
   }
 
@@ -180,7 +183,7 @@ export function initializePerformanceMonitoring() {
   if ('memory' in performance) {
     setInterval(() => {
       const memory = (performance as Performance & { memory?: { usedJSHeapSize: number; jsHeapSizeLimit: number } }).memory
-      if (memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
+      if (memory && memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
         console.warn('High memory usage detected')
       }
     }, 30000) // Check every 30 seconds

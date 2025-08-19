@@ -24,14 +24,12 @@ export async function generateStaticParams() {
 }
 
 interface BlogPostPageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   try {
-    const { slug } = params
+    const { slug } = await params
     
     // Get post data
     const { post } = await getPostBySlug(slug)

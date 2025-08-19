@@ -3,17 +3,17 @@
 
 import { Suspense, lazy, ComponentType } from 'react'
 
-interface DynamicImportProps {
-  component: () => Promise<{ default: ComponentType<Record<string, unknown>> }>
+interface DynamicImportProps<P extends object = Record<string, unknown>> {
+  component: () => Promise<{ default: ComponentType<P> }>
   fallback?: React.ReactNode
-  props?: Record<string, unknown>
+  props?: P
 }
 
-export default function DynamicImport({
+export default function DynamicImport<P extends object = Record<string, unknown>>({
   component,
   fallback = <div className="animate-pulse bg-gray-200 h-32 rounded" />,
-  props = {}
-}: DynamicImportProps) {
+  props = {} as P,
+}: DynamicImportProps<P>) {
   const LazyComponent = lazy(component)
 
   return (
@@ -26,8 +26,8 @@ export default function DynamicImport({
 /**
  * Preload a component for better performance
  */
-export function preloadComponent(
-  component: () => Promise<{ default: ComponentType<Record<string, unknown>> }>
+export function preloadComponent<P extends object = Record<string, unknown>>(
+  component: () => Promise<{ default: ComponentType<P> }>
 ): void {
   // Start loading the component in the background
   component()

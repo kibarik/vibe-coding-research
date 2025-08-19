@@ -1,6 +1,6 @@
 // src/components/SEO.tsx
 import Head from 'next/head'
-
+import type { Post } from '@/lib/data-fetching'
 
 interface SEOProps {
   title: string
@@ -138,7 +138,7 @@ export default function SEO({
  * SEO component for blog posts
  */
 interface BlogPostSEOProps {
-  post: Record<string, unknown>
+  post: Post
   structuredData?: Record<string, unknown>
 }
 
