@@ -61,7 +61,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
               <Suspense fallback={<SearchBarSkeleton />}>
                 <DynamicSearchBar
                   placeholder="Search articles..."
-                  navigateToSearch={true}
                 />
               </Suspense>
             </div>
