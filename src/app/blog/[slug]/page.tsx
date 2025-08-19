@@ -32,11 +32,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params
     
     // Get post data
-    const { post } = await getPostBySlug(slug)
+    const postData = await getPostBySlug(slug)
     
-    if (!post) {
+    if (!postData || !postData.post) {
       notFound()
     }
+    
+    const { post } = postData
 
     // Generate structured data for the post
     const structuredData = {

@@ -6,6 +6,12 @@ import BlogPage from '@/app/blog/page'
 vi.mock('@/lib/data-fetching', () => ({
   getPosts: vi.fn().mockResolvedValue({
     posts: {
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: null,
+        endCursor: null
+      },
       nodes: [
         {
           id: '1',

@@ -199,7 +199,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             )}
 
             {/* Load More Button (for cursor-based pagination) */}
-            {posts.pageInfo.hasNextPage && (
+            {posts.pageInfo?.hasNextPage && (
               <div className="mt-12 text-center">
                 <button 
                   className="inline-flex items-center px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"

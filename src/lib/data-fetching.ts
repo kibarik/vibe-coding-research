@@ -186,6 +186,12 @@ export async function getPostBySlug(slug: string): Promise<PostResponse> {
       variables: { slug },
       fetchPolicy: 'cache-first',
     })
+    
+    // Ensure we always return a valid structure
+    if (!data || !data.post) {
+      throw new Error(`Post not found: ${slug}`)
+    }
+    
     return data
   } catch (error) {
     console.error('Error fetching post:', error)
