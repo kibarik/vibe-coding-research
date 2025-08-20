@@ -201,4 +201,13 @@ describe('Blog Detail Page', () => {
     // Should still render the correct content
     expect(screen.getByRole('heading', { level: 1, name: 'Привет, мир!' })).toBeInTheDocument()
   })
+
+  it('renders loading skeleton initially', async () => {
+    const page = await BlogPostPage({ params: mockParams, searchParams: mockSearchParams })
+    render(page)
+    
+    // Check that skeleton elements are present
+    const skeletonElements = document.querySelectorAll('.animate-pulse')
+    expect(skeletonElements.length).toBeGreaterThan(0)
+  })
 })

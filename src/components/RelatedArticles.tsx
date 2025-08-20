@@ -8,7 +8,7 @@ interface RelatedArticlesProps {
   currentPostSlug?: string
 }
 
-export default function RelatedArticles({ posts, currentPostSlug }: RelatedArticlesProps) {
+export default function RelatedArticles({ posts }: RelatedArticlesProps) {
   if (!posts || posts.length === 0) {
     return null
   }

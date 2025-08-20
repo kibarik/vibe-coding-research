@@ -98,6 +98,12 @@
     animation: loading 1.5s infinite;
   }
   
+  .skeleton-dark {
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+  
   @keyframes loading {
     0% {
       background-position: 200% 0;
@@ -123,6 +129,81 @@
   code, pre {
     font-family: var(--font-geist-mono), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
   }
+  
+  /* Dark theme base styles */
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+    --card: #ffffff;
+    --card-foreground: #171717;
+    --popover: #ffffff;
+    --popover-foreground: #171717;
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --secondary: #f3f4f6;
+    --secondary-foreground: #171717;
+    --muted: #f3f4f6;
+    --muted-foreground: #6b7280;
+    --accent: #f3f4f6;
+    --accent-foreground: #171717;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #e5e7eb;
+    --input: #ffffff;
+    --ring: #3b82f6;
+    --radius: 0.5rem;
+  }
+  
+  .dark {
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #111111;
+    --card-foreground: #ffffff;
+    --popover: #111111;
+    --popover-foreground: #ffffff;
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --secondary: #1f2937;
+    --secondary-foreground: #ffffff;
+    --muted: #1f2937;
+    --muted-foreground: #9ca3af;
+    --accent: #1f2937;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #374151;
+    --input: #111111;
+    --ring: #3b82f6;
+  }
+  
+  /* Improved contrast ratios for accessibility */
+  .dark .text-gray-300 {
+    color: #d1d5db; /* Better contrast than #9ca3af */
+  }
+  
+  .dark .text-gray-400 {
+    color: #9ca3af; /* Maintains good contrast */
+  }
+  
+  .dark .text-gray-500 {
+    color: #6b7280; /* Better contrast for secondary text */
+  }
+  
+  .dark .bg-gray-800 {
+    background-color: #1f2937; /* Better contrast than #374151 */
+  }
+  
+  .dark .bg-gray-900 {
+    background-color: #111827; /* Better contrast than #1f2937 */
+  }
+  
+  .dark .border-gray-700 {
+    border-color: #374151; /* Better contrast than #4b5563 */
+  }
+  
+  .dark .border-gray-800 {
+    border-color: #1f2937; /* Better contrast than #374151 */
+  }
 }
 
 /* Image optimization for CLS */
@@ -140,6 +221,11 @@
     justify-content: center;
     color: #6b7280;
     font-size: 0.875rem;
+  }
+  
+  .dark .image-placeholder {
+    background-color: #1f2937;
+    color: #9ca3af;
   }
   
   /* Prevent layout shift for dynamic content */
@@ -163,5 +249,27 @@
   
   .card-footer {
     margin-top: auto;
+  }
+  
+  /* Blog-specific dark theme styles */
+  .blog-dark {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  
+  .blog-dark .bg-gray-900 {
+    background-color: #111827;
+  }
+  
+  .blog-dark .border-gray-800 {
+    border-color: #1f2937;
+  }
+  
+  .blog-dark .text-gray-300 {
+    color: #d1d5db;
+  }
+  
+  .blog-dark .text-gray-400 {
+    color: #9ca3af;
   }
 }

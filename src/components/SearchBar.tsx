@@ -34,15 +34,18 @@ export default function SearchBar({
 
   // Debounced search function to optimize performance
   const debouncedSearch = useCallback(
-    debounce((searchQuery: string) => {
-      setIsSearching(false)
-      if (onSearch) {
-        onSearch(searchQuery)
-      }
-      if (navigateToSearch && searchQuery.trim()) {
-        router.push(`/blog/search?q=${encodeURIComponent(searchQuery.trim())}`)
-      }
-    }, debounceMs),
+    (searchQuery: string) => {
+      const debouncedFn = debounce((query: string) => {
+        setIsSearching(false)
+        if (onSearch) {
+          onSearch(query)
+        }
+        if (navigateToSearch && query.trim()) {
+          router.push(`/blog/search?q=${encodeURIComponent(query.trim())}`)
+        }
+      }, debounceMs)
+      debouncedFn(searchQuery)
+    },
     [onSearch, debounceMs, navigateToSearch, router]
   )
 

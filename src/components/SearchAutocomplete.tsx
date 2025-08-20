@@ -44,28 +44,31 @@ export default function SearchAutocomplete({
 
   // Debounced search function
   const debouncedSearch = useCallback(
-    debounce(async (searchQuery: string) => {
-      if (!searchQuery.trim()) {
-        setSuggestions([])
-        setIsLoading(false)
-        return
-      }
-
-      try {
-        const response = await fetch(`/api/search/suggestions?q=${encodeURIComponent(searchQuery)}&limit=${maxSuggestions}`)
-        if (response.ok) {
-          const data = await response.json()
-          setSuggestions(data.suggestions || [])
-        } else {
+    (searchQuery: string) => {
+      const debouncedFn = debounce(async (query: string) => {
+        if (!query.trim()) {
           setSuggestions([])
+          setIsLoading(false)
+          return
         }
-      } catch (error) {
-        console.error('Error fetching suggestions:', error)
-        setSuggestions([])
-      } finally {
-        setIsLoading(false)
-      }
-    }, debounceMs),
+
+        try {
+          const response = await fetch(`/api/search/suggestions?q=${encodeURIComponent(query)}&limit=${maxSuggestions}`)
+          if (response.ok) {
+            const data = await response.json()
+            setSuggestions(data.suggestions || [])
+          } else {
+            setSuggestions([])
+          }
+        } catch (error) {
+          console.error('Error fetching suggestions:', error)
+          setSuggestions([])
+        } finally {
+          setIsLoading(false)
+        }
+      }, debounceMs)
+      debouncedFn(searchQuery)
+    },
     [debounceMs, maxSuggestions]
   )
 

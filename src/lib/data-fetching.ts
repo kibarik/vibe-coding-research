@@ -117,6 +117,15 @@ export interface Tag {
   count: number
 }
 
+export interface Author {
+  id: string
+  name: string
+  slug: string
+  avatar?: {
+    url: string
+  }
+}
+
 export interface PageInfo {
   hasNextPage: boolean
   hasPreviousPage: boolean
@@ -274,6 +283,43 @@ export async function getCategories(): Promise<CategoriesResponse> {
     return {
       categories: {
         nodes: mockCategories
+      }
+    }
+  }
+}
+
+export async function getAuthors(): Promise<{ authors: { nodes: Author[] } }> {
+  try {
+    // In a real implementation, this would be a GraphQL query
+    // For now, we'll extract unique authors from posts
+    const { posts } = await getPosts(100)
+    const authorMap = new Map<string, Author>()
+    
+    posts.nodes.forEach(post => {
+      if (post.author?.node) {
+        const author = post.author.node
+        if (!authorMap.has(author.id)) {
+          authorMap.set(author.id, {
+            id: author.id,
+            name: author.name,
+            slug: author.slug,
+            avatar: author.avatar
+          })
+        }
+      }
+    })
+    
+    return {
+      authors: {
+        nodes: Array.from(authorMap.values())
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching authors:', error)
+    // Return empty authors array as fallback
+    return {
+      authors: {
+        nodes: []
       }
     }
   }

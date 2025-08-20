@@ -3,415 +3,172 @@
     "tasks": [
       {
         "id": 1,
-        "title": "Project Setup and Foundation",
-        "description": "Set up the Next.js project with TypeScript, Tailwind CSS, and basic project structure",
-        "details": "Initialize Next.js 14+ project with App Router, configure TypeScript, set up Tailwind CSS, create basic folder structure, configure essential development tools and linting, and set up Cypress for E2E testing.",
-        "testStrategy": "Verify Next.js development server starts, TypeScript compilation works, Tailwind CSS is properly configured, basic page renders correctly, and Cypress can run basic tests",
-        "dependencies": [],
-        "priority": "high",
+        "title": "Create Blog Sidebar Navigation Component",
+        "description": "Implement a fixed left sidebar navigation component similar to OpenAI news design with dark background and vertical category list",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "setup",
-          "frontend"
-        ],
+        "priority": "high",
+        "dependencies": [],
+        "details": "Create a new BlogSidebar component with:\n- Fixed left sidebar (250-300px width)\n- Dark background (#000000)\n- Vertical category navigation\n- Active state highlighting with dark grey background\n- Smooth hover transitions\n- Responsive behavior (collapsible on mobile)\n- Integration with existing category data structure",
+        "testStrategy": "Test sidebar renders correctly, category selection works, responsive behavior on mobile, accessibility compliance",
         "subtasks": []
       },
       {
         "id": 2,
-        "title": "WPGraphQL Integration Setup",
-        "description": "Configure WPGraphQL integration for fetching blog data from WordPress API",
-        "details": "Set up WPGraphQL client, create GraphQL queries for posts, pages, categories, and tags, implement data fetching utilities, and optimize queries for performance. Focus on requesting only necessary fields to improve performance.",
-        "testStrategy": "Test GraphQL queries return correct data, verify performance of API calls, check error handling, and ensure proper caching strategies",
-        "dependencies": [],
-        "priority": "high",
+        "title": "Redesign Blog Header and Filter Bar",
+        "description": "Create a modern header with 'News' title and horizontal category filter bar matching OpenAI design",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "api",
-          "graphql"
+        "priority": "high",
+        "dependencies": [
+          1
         ],
+        "details": "Create BlogHeader component with:\n- Large 'News' title in white text\n- Horizontal category filter bar below title\n- 'All' category highlighted when active\n- Grey text for inactive categories\n- Right-aligned filter and sort controls\n- View mode toggles (grid/list)\n- Clean, minimal design matching OpenAI aesthetic",
+        "testStrategy": "Test header renders correctly, category filtering works, responsive design, accessibility",
         "subtasks": []
       },
       {
         "id": 3,
-        "title": "SSG Strategy Implementation",
-        "description": "Implement Static Site Generation (SSG) with Incremental Static Regeneration (ISR) for optimal performance",
-        "details": "Configure getStaticProps and getStaticPaths for blog posts and pages, implement ISR for dynamic content updates, set up proper revalidation strategies, and ensure optimal build times and performance.",
-        "testStrategy": "Verify static generation works correctly, test ISR revalidation, check build performance, and ensure content updates are reflected properly",
-        "dependencies": [
-          "1",
-          "2"
-        ],
-        "priority": "high",
+        "title": "Implement Modern Search and Filter Controls",
+        "description": "Create integrated search bar and filter controls positioned in the header area",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "performance",
-          "ssg"
+        "priority": "high",
+        "dependencies": [
+          2
         ],
+        "details": "Create FilterControls component with:\n- Integrated search bar in filter area\n- Filter dropdown for advanced filtering\n- Sort dropdown for article ordering\n- View mode toggle buttons (grid/list)\n- Clean, minimal design\n- Proper state management for filters",
+        "testStrategy": "Test search functionality, filter dropdowns work, sort options function, view mode toggles",
         "subtasks": []
       },
       {
         "id": 4,
-        "title": "Core Web Vitals Optimization - LCP",
-        "description": "Optimize Largest Contentful Paint (LCP) through SSG and image optimization",
-        "details": "Implement SSG for fast initial page loads, optimize hero images and large content elements, use Next.js Image component with proper sizing, implement priority loading for above-the-fold images, and ensure LCP score > 2.5s.",
-        "testStrategy": "Achieve LCP score < 2.5s, test with Lighthouse, verify image optimization, and ensure fast loading on 3G connections",
-        "dependencies": [
-          "1",
-          "3"
-        ],
-        "priority": "high",
+        "title": "Create Featured Article Component",
+        "description": "Design a large featured article card with gradient background similar to OpenAI's featured content",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "performance",
-          "lcp"
+        "priority": "medium",
+        "dependencies": [
+          2
         ],
+        "details": "Create FeaturedArticle component with:\n- Large card format for key articles\n- Gradient background overlays\n- Modern typography and spacing\n- Hover effects and transitions\n- Proper image optimization\n- Accessibility features",
+        "testStrategy": "Test featured article renders correctly, gradients display properly, hover effects work, accessibility compliance",
         "subtasks": []
       },
       {
         "id": 5,
-        "title": "Core Web Vitals Optimization - FID/INP",
-        "description": "Optimize First Input Delay and Interaction to Next Paint for responsive user interactions",
-        "details": "Minimize JavaScript execution time, implement code splitting, use lazy loading for non-critical resources, optimize event handlers, and ensure FID < 100ms and INP < 200ms.",
-        "testStrategy": "Achieve FID < 100ms and INP < 200ms, test with Lighthouse, verify responsive interactions, and ensure smooth user experience",
-        "dependencies": [
-          "1",
-          "3"
-        ],
-        "priority": "high",
+        "title": "Redesign Article Card Component",
+        "description": "Update existing article cards to match modern design with better visual hierarchy",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "performance",
-          "fid",
-          "inp"
+        "priority": "medium",
+        "dependencies": [
+          4
         ],
+        "details": "Update ArticleCard component with:\n- Modern card design with subtle shadows\n- Better typography hierarchy\n- Improved spacing and padding\n- Hover effects and transitions\n- Gradient overlays for featured images\n- Clean, minimal aesthetic",
+        "testStrategy": "Test article cards render correctly, hover effects work, responsive design, accessibility",
         "subtasks": []
       },
       {
         "id": 6,
-        "title": "Core Web Vitals Optimization - CLS",
-        "description": "Optimize Cumulative Layout Shift by preventing layout shifts during page load",
-        "details": "Specify dimensions for all images and fonts, reserve space for dynamic content, avoid inserting content above existing content, and ensure CLS score < 0.1.",
-        "testStrategy": "Achieve CLS score < 0.1, test with Lighthouse, verify no layout shifts during loading, and ensure stable visual experience",
-        "dependencies": [
-          "1",
-          "4"
-        ],
-        "priority": "high",
+        "title": "Implement Article Gallery Grid Layout",
+        "description": "Create a modern gallery grid layout that showcases featured and regular articles effectively",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "performance",
-          "cls"
+        "priority": "medium",
+        "dependencies": [
+          4,
+          5
         ],
+        "details": "Create ArticleGallery component with:\n- Gallery-style grid layout\n- Featured article prominently displayed\n- Responsive grid system\n- Proper spacing and alignment\n- Smooth transitions between layouts\n- Optimized for visual hierarchy",
+        "testStrategy": "Test gallery layout renders correctly, responsive behavior, featured article positioning, accessibility",
         "subtasks": []
       },
       {
         "id": 7,
-        "title": "Blog Homepage with Article Grid",
-        "description": "Create the main blog homepage with article grid layout inspired by OpenAI News",
-        "details": "Implement responsive article grid using SSG, fetch articles via WPGraphQL, create article cards with optimized images, add basic pagination, implement loading states, and ensure proper Core Web Vitals scores.",
-        "testStrategy": "Verify articles display correctly, test responsive design, check loading states, ensure proper error handling, and achieve Lighthouse score > 90",
-        "dependencies": [
-          "2",
-          "3",
-          "4",
-          "5",
-          "6"
-        ],
-        "priority": "high",
+        "title": "Update Main Blog Page Layout",
+        "description": "Integrate all new components into the main blog page with proper layout structure",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "frontend",
-          "ui"
+        "priority": "high",
+        "dependencies": [
+          1,
+          2,
+          3,
+          6
         ],
+        "details": "Update src/app/blog/page.tsx with:\n- New layout structure with sidebar\n- Integration of BlogHeader component\n- ArticleGallery component integration\n- Proper responsive behavior\n- Maintain existing functionality\n- Update styling to match OpenAI design",
+        "testStrategy": "Test page renders correctly, all components integrate properly, responsive design works, functionality preserved",
         "subtasks": []
       },
       {
         "id": 8,
-        "title": "Single Article Page Structure",
-        "description": "Create individual article pages with hero block and content layout inspired by Writer.com",
-        "details": "Implement article detail page with SSG, create hero section with optimized cover image, render article content with proper typography, add meta information display, and implement sticky table of contents sidebar.",
-        "testStrategy": "Test article page renders correctly, verify hero section displays properly, check content formatting, ensure responsive design, and achieve optimal Core Web Vitals scores",
-        "dependencies": [
-          "2",
-          "3",
-          "4",
-          "5",
-          "6"
-        ],
-        "priority": "high",
+        "title": "Implement Dark Theme as Default",
+        "description": "Update the blog page to use dark theme as default, matching OpenAI's aesthetic",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "frontend",
-          "ui"
+        "priority": "medium",
+        "dependencies": [
+          7
         ],
+        "details": "Update theme configuration:\n- Set dark theme as default for blog page\n- Update color scheme to match OpenAI\n- Ensure proper contrast ratios\n- Maintain accessibility standards\n- Update global styles if needed",
+        "testStrategy": "Test dark theme renders correctly, contrast ratios meet accessibility standards, theme switching works",
         "subtasks": []
       },
       {
         "id": 9,
-        "title": "SEO Meta Tags and Structured Data",
-        "description": "Implement dynamic meta tags, Open Graph tags, and JSON-LD structured data",
-        "details": "Add dynamic meta titles and descriptions, implement Open Graph tags for social sharing, create JSON-LD structured data for articles, set up canonical URLs, and ensure proper SEO optimization.",
-        "testStrategy": "Verify meta tags are generated correctly, test Open Graph previews, validate JSON-LD with Google's testing tool, check canonical URLs, and ensure SEO score > 95",
-        "dependencies": [
-          "7",
-          "8"
-        ],
-        "priority": "high",
+        "title": "Add Responsive Sidebar Behavior",
+        "description": "Implement responsive behavior for sidebar navigation on mobile devices",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "seo"
+        "priority": "medium",
+        "dependencies": [
+          1,
+          7
         ],
+        "details": "Add responsive features:\n- Collapsible sidebar on mobile\n- Hamburger menu for mobile\n- Smooth slide animations\n- Touch-friendly interactions\n- Proper overlay behavior\n- Maintain accessibility on mobile",
+        "testStrategy": "Test mobile sidebar behavior, touch interactions work, animations are smooth, accessibility maintained",
         "subtasks": []
       },
       {
         "id": 10,
-        "title": "Search Functionality with WPGraphQL",
-        "description": "Implement real-time search with autocomplete using WPGraphQL",
-        "details": "Create search input component, implement real-time search with debouncing, add autocomplete suggestions using GraphQL queries, create search results page, and optimize search performance.",
-        "testStrategy": "Test search functionality works correctly, verify autocomplete displays suggestions, check search results accuracy, test performance with large datasets, and ensure responsive search experience",
-        "dependencies": [
-          "2",
-          "7"
-        ],
-        "priority": "medium",
+        "title": "Optimize Performance and Loading States",
+        "description": "Implement loading states and performance optimizations for the new design",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "frontend",
-          "ux"
+        "priority": "low",
+        "dependencies": [
+          7
         ],
+        "details": "Add performance features:\n- Loading skeletons for articles\n- Optimized image loading\n- Smooth transitions and animations\n- Lazy loading for non-critical components\n- Performance monitoring\n- Bundle size optimization",
+        "testStrategy": "Test loading states display correctly, performance metrics are acceptable, animations are smooth",
         "subtasks": []
       },
       {
         "id": 11,
-        "title": "Category Navigation and Filtering",
-        "description": "Add horizontal category navigation and filtering system",
-        "details": "Create horizontal scrollable category navigation, implement category filtering on the homepage, add category detail pages with SSG, ensure proper URL structure for categories, and optimize for Core Web Vitals.",
-        "testStrategy": "Test category navigation works, verify filtering functionality, check category pages display correctly, ensure proper URL routing, and test performance",
-        "dependencies": [
-          "2",
-          "7"
-        ],
-        "priority": "medium",
+        "title": "Add Advanced Filtering and Search",
+        "description": "Enhance search and filtering capabilities with advanced options",
         "status": "done",
-        "effort": "medium",
-        "tags": [
-          "frontend",
-          "navigation"
+        "priority": "low",
+        "dependencies": [
+          3,
+          7
         ],
+        "details": "Enhance filtering features:\n- Advanced search filters\n- Date range filtering\n- Author filtering\n- Tag-based filtering\n- Search suggestions\n- Filter persistence",
+        "testStrategy": "Test advanced filtering works correctly, search suggestions function, filter persistence works",
         "subtasks": []
       },
       {
         "id": 12,
-        "title": "Sticky Table of Contents",
-        "description": "Implement sticky table of contents sidebar for article pages",
-        "details": "Create table of contents component that extracts headings from article content, implement sticky positioning, add clickable navigation, ensure proper scroll behavior, and optimize for CLS.",
-        "testStrategy": "Test table of contents displays correctly, verify sticky positioning works, check click navigation functions properly, test on different screen sizes, and ensure no layout shifts",
-        "dependencies": [
-          "8"
-        ],
+        "title": "Final Testing and Polish",
+        "description": "Comprehensive testing and final polish of the redesigned blog page",
+        "status": "done",
         "priority": "medium",
-        "status": "done",
-        "effort": "medium",
-        "tags": [
-          "frontend",
-          "ux"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 13,
-        "title": "Image Optimization and CDN Integration",
-        "description": "Implement Next.js Image optimization and CDN integration for media delivery",
-        "details": "Configure Next.js Image component with proper sizing, set up CDN for WordPress media, implement lazy loading, optimize image formats (WebP, AVIF), ensure responsive images work correctly, and optimize for LCP and CLS.",
-        "testStrategy": "Test image loading performance, verify responsive images work, check lazy loading functionality, measure Core Web Vitals improvements, and ensure optimal image delivery",
         "dependencies": [
-          "2",
-          "7",
-          "8"
+          8,
+          9,
+          10,
+          11
         ],
-        "priority": "medium",
-        "status": "done",
-        "effort": "medium",
-        "tags": [
-          "performance",
-          "images"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 14,
-        "title": "Dark/Light Mode Toggle",
-        "description": "Implement theme switching with system preference detection",
-        "details": "Create theme context and provider, implement dark/light mode toggle, add system preference detection, create theme-aware components, persist user preference, and ensure no CLS during theme switching.",
-        "testStrategy": "Test theme switching works correctly, verify system preference detection, check theme persistence, ensure all components adapt to theme changes, and verify no layout shifts",
-        "dependencies": [
-          "1"
-        ],
-        "priority": "low",
-        "status": "done",
-        "effort": "small",
-        "tags": [
-          "frontend",
-          "ux"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 15,
-        "title": "Reading Progress Indicator",
-        "description": "Add visual reading progress indicator for article pages",
-        "details": "Create reading progress component, implement scroll-based progress calculation, add smooth animations, ensure it works across different article lengths, and optimize for performance.",
-        "testStrategy": "Test progress indicator updates correctly, verify smooth animations, check accuracy of progress calculation, test on different article lengths, and ensure no performance impact",
-        "dependencies": [
-          "8"
-        ],
-        "priority": "low",
-        "status": "pending",
-        "effort": "small",
-        "tags": [
-          "frontend",
-          "ux"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 16,
-        "title": "Related Articles Section",
-        "description": "Implement related articles suggestions at the bottom of article pages",
-        "details": "Create related articles algorithm based on categories and tags using WPGraphQL, implement related articles component, add proper linking, ensure good user experience, and optimize for performance.",
-        "testStrategy": "Test related articles display correctly, verify relevance of suggestions, check proper linking works, ensure good performance, and test with various content types",
-        "dependencies": [
-          "2",
-          "8"
-        ],
-        "priority": "medium",
-        "status": "done",
-        "effort": "small",
-        "tags": [
-          "frontend",
-          "content"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 17,
-        "title": "Social Sharing Integration",
-        "description": "Add social sharing buttons for articles",
-        "details": "Create social sharing component, implement sharing for major platforms (Twitter, Facebook, LinkedIn), add proper Open Graph meta tags, ensure sharing works correctly, and optimize for performance.",
-        "testStrategy": "Test social sharing buttons work, verify Open Graph tags display correctly, check sharing functionality on different platforms, ensure proper URL encoding, and test performance",
-        "dependencies": [
-          "8",
-          "9"
-        ],
-        "priority": "low",
-        "status": "pending",
-        "effort": "small",
-        "tags": [
-          "frontend",
-          "social"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 18,
-        "title": "Advanced Performance Optimization",
-        "description": "Implement advanced caching strategies and performance optimizations",
-        "details": "Implement advanced caching strategies, optimize bundle size, add service worker for offline support, implement code splitting, optimize Core Web Vitals scores, and ensure Lighthouse score > 90.",
-        "testStrategy": "Achieve Lighthouse score > 90, verify Core Web Vitals are green, test caching strategies, ensure fast loading times on 3G connections, and optimize for all performance metrics",
-        "dependencies": [
-          "7",
-          "8",
-          "13"
-        ],
-        "priority": "high",
-        "status": "pending",
-        "effort": "large",
-        "tags": [
-          "performance",
-          "optimization"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 19,
-        "title": "Accessibility and WCAG Compliance",
-        "description": "Ensure full accessibility compliance and keyboard navigation",
-        "details": "Implement keyboard navigation, add proper ARIA labels, ensure color contrast compliance, add screen reader support, conduct accessibility audit, and maintain Core Web Vitals scores.",
-        "testStrategy": "Achieve WCAG 2.1 AA compliance, test keyboard navigation, verify screen reader compatibility, pass accessibility audit tools, and ensure no performance regression",
-        "dependencies": [
-          "7",
-          "8",
-          "10",
-          "11",
-          "12"
-        ],
-        "priority": "high",
-        "status": "done",
-        "effort": "medium",
-        "tags": [
-          "accessibility",
-          "compliance"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 20,
-        "title": "E2E Testing with Cypress",
-        "description": "Implement comprehensive end-to-end testing with Cypress",
-        "details": "Set up Cypress for E2E testing, create test suites for user flows, implement component testing, test Core Web Vitals, verify accessibility, and ensure comprehensive test coverage.",
-        "testStrategy": "Create comprehensive test suites, verify all user flows work correctly, test performance metrics, ensure accessibility compliance, and achieve high test coverage",
-        "dependencies": [
-          "7",
-          "8",
-          "9",
-          "10",
-          "11",
-          "12"
-        ],
-        "priority": "medium",
-        "status": "pending",
-        "effort": "medium",
-        "tags": [
-          "testing",
-          "e2e"
-        ],
-        "subtasks": []
-      },
-      {
-        "id": 21,
-        "title": "Coolify Deployment and Monitoring",
-        "description": "Deploy application to Coolify and set up monitoring",
-        "details": "Configure Coolify deployment, set up monitoring and analytics, implement error tracking, configure SSL certificates, set up automated backups, and ensure production readiness.",
-        "testStrategy": "Verify successful deployment, test monitoring systems, check error tracking, verify SSL configuration, test backup systems, and ensure production stability",
-        "dependencies": [
-          "18",
-          "19",
-          "20"
-        ],
-        "priority": "high",
-        "status": "pending",
-        "effort": "medium",
-        "tags": [
-          "deployment",
-          "monitoring"
-        ],
+        "details": "Final testing and polish:\n- Cross-browser testing\n- Accessibility audit\n- Performance testing\n- Visual design review\n- User experience testing\n- Bug fixes and refinements",
+        "testStrategy": "Complete testing across browsers, accessibility compliance verified, performance optimized, design approved",
         "subtasks": []
       }
     ],
     "metadata": {
-      "created": "2024-12-19T10:00:00Z",
-      "updated": "2025-08-19T19:23:08.105Z",
-      "description": "Updated tasks for Next.js blog with WPGraphQL, SSG, and Core Web Vitals optimization"
+      "created": "2025-08-19T20:11:10.538Z",
+      "updated": "2025-08-20T07:43:30.898Z",
+      "description": "Tasks for master context"
     }
   }
 }

@@ -1,0 +1,116 @@
+# Blog Page Redesign PRD - OpenAI News Style
+
+## Project Overview
+Redesign the main blog page to match the modern, clean design of OpenAI's news section with improved navigation, search functionality, and visual hierarchy.
+
+## Current State Analysis
+- Current blog page has basic grid layout with cards
+- Category navigation is horizontal with pills
+- Search bar is positioned above the grid
+- No sidebar navigation
+- Limited visual hierarchy and modern design elements
+
+## Target Design Requirements
+
+### Layout Structure
+1. **Left Sidebar Navigation**
+   - Fixed sidebar with dark background
+   - Vertical navigation menu with categories
+   - Active state highlighting
+   - Smooth transitions and hover effects
+
+2. **Main Content Area**
+   - Clean header with "News" title
+   - Horizontal category filter bar below title
+   - Search and filter controls on the right
+   - Gallery-style article grid with featured cards
+
+3. **Visual Design**
+   - Dark theme with black background
+   - White text with proper contrast
+   - Gradient backgrounds for featured articles
+   - Modern card designs with hover effects
+   - Clean typography and spacing
+
+### Key Components to Implement
+
+#### 1. Sidebar Navigation Component
+- Fixed left sidebar (250-300px width)
+- Dark background (#000000)
+- Vertical category list
+- Active state with dark grey background
+- Smooth hover transitions
+- Responsive behavior (collapsible on mobile)
+
+#### 2. Enhanced Category Filter Bar
+- Horizontal bar below main title
+- "All" category highlighted when active
+- Grey text for inactive categories
+- Right-aligned filter and sort controls
+- View mode toggles (grid/list)
+
+#### 3. Modern Search Interface
+- Integrated search bar in filter area
+- Filter and sort dropdowns
+- View mode toggle buttons
+- Clean, minimal design
+
+#### 4. Article Gallery Grid
+- Featured article with gradient background
+- Large card format for key articles
+- Smaller cards for secondary articles
+- Gradient overlays and modern styling
+- Hover effects and transitions
+
+#### 5. Responsive Design
+- Mobile-first approach
+- Collapsible sidebar on mobile
+- Adaptive grid layouts
+- Touch-friendly interactions
+
+## Technical Requirements
+
+### Components to Create/Modify
+1. `BlogSidebar` - New sidebar navigation component
+2. `BlogHeader` - Enhanced header with title and filter bar
+3. `ArticleGallery` - Modern gallery grid component
+4. `FilterControls` - Search, filter, and sort controls
+5. `FeaturedArticle` - Large featured article card
+6. `ArticleCard` - Redesigned article card component
+
+### Styling Requirements
+- Use Tailwind CSS for consistent styling
+- Implement dark theme as default
+- Add smooth transitions and animations
+- Ensure accessibility compliance
+- Optimize for performance
+
+### State Management
+- Category selection state
+- Search query state
+- Filter and sort state
+- View mode state (grid/list)
+- Responsive sidebar state
+
+## Success Criteria
+1. Visual match to OpenAI news design
+2. Improved user experience and navigation
+3. Better content discovery
+4. Responsive design across devices
+5. Maintained accessibility standards
+6. Performance optimization
+
+## Implementation Phases
+1. **Phase 1**: Create sidebar navigation component
+2. **Phase 2**: Redesign header and filter bar
+3. **Phase 3**: Implement modern article gallery
+4. **Phase 4**: Add responsive behavior
+5. **Phase 5**: Polish animations and interactions
+6. **Phase 6**: Testing and optimization
+
+## Dependencies
+- Existing blog data structure
+- Current routing system
+- Tailwind CSS configuration
+- Next.js App Router
+- TypeScript setup
