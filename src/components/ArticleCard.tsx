@@ -14,8 +14,8 @@ interface ArticleCardProps {
 export function ArticleCard({ post, className = '', priority = false }: ArticleCardProps) {
   return (
     <article
-      className={`bg-gray-900/50 backdrop-blur-sm rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden group border border-gray-800/50 hover:border-gray-700/50 hover:scale-[1.02] ${className}`}
-      style={{ minHeight: '480px' }}
+      className={`bg-gray-900/30 backdrop-blur-sm rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden group border border-gray-800/30 hover:border-gray-700/50 hover:scale-[1.02] ${className}`}
+      style={{ minHeight: '520px' }}
       aria-labelledby={`post-title-${post.id}`}
       aria-describedby={`post-excerpt-${post.id}`}
     >
@@ -35,7 +35,7 @@ export function ArticleCard({ post, className = '', priority = false }: ArticleC
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
           />
           {/* Enhanced gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         </div>
       )}
@@ -98,7 +98,7 @@ export function ArticleCard({ post, className = '', priority = false }: ArticleC
         )}
 
         {/* Read More Link */}
-        <div className="mt-auto pt-6 border-t border-gray-800/50">
+        <div className="mt-auto pt-6 border-t border-gray-800/30">
           <Link
             href={`/blog/${post.slug}`}
             className="text-blue-400 hover:text-blue-300 font-semibold text-base inline-flex items-center group/link focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-lg transition-colors duration-200"

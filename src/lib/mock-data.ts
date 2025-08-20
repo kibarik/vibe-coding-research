@@ -5,80 +5,6 @@ export const mockPosts: Post[] = [
   {
     id: '1',
     databaseId: 1,
-    title: 'Привет, мир!',
-    excerpt: 'Первая статья в блоге о программировании и технологиях.',
-    content: 
-      '<h2>Введение</h2>' +
-      '<p>Добро пожаловать в наш блог о программировании! Здесь мы будем делиться знаниями о современных технологиях, лучших практиках разработки и интересными проектами.</p>' +
-      
-      '<h2>О чем будем писать</h2>' +
-      '<p>В этом блоге мы планируем освещать следующие темы:</p>' +
-      '<ul>' +
-        '<li>Современные фреймворки и библиотеки</li>' +
-        '<li>Лучшие практики разработки</li>' +
-        '<li>Архитектура приложений</li>' +
-        '<li>Производительность и оптимизация</li>' +
-      '</ul>' +
-      
-      '<h2>Технологический стек</h2>' +
-      '<p>Мы будем использовать современные технологии:</p>' +
-      '<ul>' +
-        '<li>Next.js 15</li>' +
-        '<li>TypeScript</li>' +
-        '<li>Tailwind CSS</li>' +
-        '<li>WordPress GraphQL</li>' +
-      '</ul>' +
-      
-      '<h2>Заключение</h2>' +
-      '<p>Следите за обновлениями! Мы будем регулярно публиковать новые статьи с полезной информацией для разработчиков.</p>',
-    slug: 'привет-мир',
-    date: '2024-01-15T10:00:00Z',
-    modified: '2024-01-15T10:00:00Z',
-    featuredImage: {
-      node: {
-        id: 'img1',
-        sourceUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop',
-        altText: 'Привет, мир!',
-        mediaDetails: {
-          width: 800,
-          height: 400
-        }
-      }
-    },
-    author: {
-      node: {
-        id: 'author1',
-        name: 'Команда Vibe Coding Research',
-        slug: 'vibe-coding-research'
-      }
-    },
-    categories: {
-      nodes: [
-        {
-          id: 'cat1',
-          name: 'Общие',
-          slug: 'общие'
-        }
-      ]
-    },
-    tags: {
-      nodes: [
-        {
-          id: 'tag1',
-          name: 'блог',
-          slug: 'блог'
-        },
-        {
-          id: 'tag2',
-          name: 'программирование',
-          slug: 'программирование'
-        }
-      ]
-    }
-  },
-  {
-    id: '2',
-    databaseId: 2,
     title: 'Getting Started with Next.js 15 and TypeScript',
     excerpt: 'Learn how to set up a modern Next.js 15 project with TypeScript, Tailwind CSS, and best practices for optimal performance and developer experience. We\'ll cover everything from initial setup to deployment.',
     content: 
@@ -202,6 +128,7 @@ export const mockPosts: Post[] = [
     databaseId: 2,
     title: 'Optimizing Core Web Vitals for Better Performance',
     excerpt: 'Discover advanced strategies to improve your website\'s Core Web Vitals scores, including LCP, FID, and CLS optimization techniques. Learn how to achieve perfect scores and boost your SEO rankings.',
+    content: 'Full content about Core Web Vitals optimization...',
     slug: 'optimizing-core-web-vitals-performance',
     date: '2024-01-10T14:30:00Z',
     modified: '2024-01-10T14:30:00Z',
@@ -257,6 +184,7 @@ export const mockPosts: Post[] = [
     databaseId: 3,
     title: 'Building Accessible Web Applications with WCAG 2.1',
     excerpt: 'Learn how to create web applications that are accessible to all users, including those with disabilities, following WCAG 2.1 guidelines. We\'ll cover semantic HTML, ARIA labels, and keyboard navigation.',
+    content: 'Full content about accessibility...',
     slug: 'building-accessible-web-applications-wcag',
     date: '2024-01-05T09:15:00Z',
     modified: '2024-01-05T09:15:00Z',
@@ -317,6 +245,7 @@ export const mockPosts: Post[] = [
     databaseId: 4,
     title: 'Advanced State Management with Zustand and React',
     excerpt: 'Explore modern state management solutions with Zustand, a lightweight and intuitive state management library for React. Learn how to build scalable applications with minimal boilerplate.',
+    content: 'Full content about Zustand...',
     slug: 'advanced-state-management-zustand-react',
     date: '2024-01-03T16:45:00Z',
     modified: '2024-01-03T16:45:00Z',
@@ -377,6 +306,7 @@ export const mockPosts: Post[] = [
     databaseId: 5,
     title: 'Mastering CSS Grid and Flexbox Layouts',
     excerpt: 'Dive deep into modern CSS layout techniques with Grid and Flexbox. Learn how to create responsive, complex layouts that work perfectly across all devices and screen sizes.',
+    content: 'Full content about CSS Grid and Flexbox...',
     slug: 'mastering-css-grid-flexbox-layouts',
     date: '2024-01-01T11:20:00Z',
     modified: '2024-01-01T11:20:00Z',
@@ -437,6 +367,7 @@ export const mockPosts: Post[] = [
     databaseId: 6,
     title: 'Building Scalable APIs with GraphQL and Node.js',
     excerpt: 'Learn how to design and implement scalable APIs using GraphQL and Node.js. We\'ll cover schema design, resolvers, authentication, and best practices for production deployments.',
+    content: 'Full content about GraphQL APIs...',
     slug: 'building-scalable-apis-graphql-nodejs',
     date: '2023-12-28T13:10:00Z',
     modified: '2023-12-28T13:10:00Z',
@@ -497,6 +428,7 @@ export const mockPosts: Post[] = [
     databaseId: 7,
     title: 'Testing React Applications with Jest and React Testing Library',
     excerpt: 'Master the art of testing React applications with Jest and React Testing Library. Learn how to write maintainable tests that give you confidence in your code changes.',
+    content: 'Full content about testing...',
     slug: 'testing-react-applications-jest-rtl',
     date: '2023-12-25T08:30:00Z',
     modified: '2023-12-25T08:30:00Z',
@@ -557,6 +489,7 @@ export const mockPosts: Post[] = [
     databaseId: 8,
     title: 'Deploying Next.js Applications to Vercel and AWS',
     excerpt: 'Learn how to deploy your Next.js applications to production environments like Vercel and AWS. We\'ll cover CI/CD pipelines, environment variables, and monitoring.',
+    content: 'Full content about deployment...',
     slug: 'deploying-nextjs-applications-vercel-aws',
     date: '2023-12-22T15:45:00Z',
     modified: '2023-12-22T15:45:00Z',
@@ -617,6 +550,7 @@ export const mockPosts: Post[] = [
     databaseId: 9,
     title: 'Optimizing Images and Assets for Web Performance',
     excerpt: 'Discover techniques for optimizing images and assets to improve web performance. Learn about modern image formats, lazy loading, and CDN strategies.',
+    content: 'Full content about image optimization...',
     slug: 'optimizing-images-assets-web-performance',
     date: '2023-12-20T12:15:00Z',
     modified: '2023-12-20T12:15:00Z',
@@ -677,6 +611,7 @@ export const mockPosts: Post[] = [
     databaseId: 10,
     title: 'Building Progressive Web Apps with Next.js',
     excerpt: 'Learn how to transform your Next.js application into a Progressive Web App (PWA). We\'ll cover service workers, offline functionality, and app-like experiences.',
+    content: 'Full content about PWA...',
     slug: 'building-progressive-web-apps-nextjs',
     date: '2023-12-18T09:00:00Z',
     modified: '2023-12-18T09:00:00Z',
@@ -737,6 +672,7 @@ export const mockPosts: Post[] = [
     databaseId: 11,
     title: 'Security Best Practices for Modern Web Applications',
     excerpt: 'Explore essential security practices for protecting your web applications. Learn about authentication, authorization, data validation, and common security vulnerabilities.',
+    content: 'Full content about security...',
     slug: 'security-best-practices-modern-web-applications',
     date: '2023-12-15T14:20:00Z',
     modified: '2023-12-15T14:20:00Z',
@@ -797,6 +733,7 @@ export const mockPosts: Post[] = [
     databaseId: 12,
     title: 'Microservices Architecture with Node.js and Docker',
     excerpt: 'Learn how to design and implement microservices architecture using Node.js and Docker. We\'ll cover service communication, data consistency, and deployment strategies.',
+    content: 'Full content about microservices...',
     slug: 'microservices-architecture-nodejs-docker',
     date: '2023-12-12T11:30:00Z',
     modified: '2023-12-12T11:30:00Z',
