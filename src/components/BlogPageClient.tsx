@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { BlogSkeleton } from './BlogSkeleton'
 import { FeaturedArticle } from './FeaturedArticle'
 import { ArticleCard } from './ArticleCard'
@@ -31,10 +31,17 @@ export function BlogPageClient({
   selectedCategory,
   isLoading = false
 }: BlogPageClientProps) {
-  const [currentCategory, setCurrentCategory] = useState<string | null>(selectedCategory)
+  const [mounted, setMounted] = useState(false)
+  const [currentCategory, setCurrentCategory] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortBy, setSortBy] = useState<'date' | 'title' | 'author'>('date')
+
+  // Ensure consistent hydration
+  useEffect(() => {
+    setMounted(true)
+    setCurrentCategory(selectedCategory)
+  }, [selectedCategory])
 
   const handleCategoryChange = useCallback((categorySlug: string | null) => {
     setCurrentCategory(categorySlug)
@@ -52,7 +59,7 @@ export function BlogPageClient({
     setViewMode(mode)
   }, [])
 
-  if (isLoading) {
+  if (isLoading || !mounted) {
     return <BlogSkeleton />
   }
 
